@@ -13,3 +13,7 @@ config_version=5
 config/name="Francis Frenzy"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+PauseManager="*res://bundles/pause_manager/scripts/autoloads/pause_manager.gd"
