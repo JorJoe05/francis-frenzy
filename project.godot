@@ -17,3 +17,19 @@ config/icon="res://icon.svg"
 [autoload]
 
 PauseManager="*res://bundles/pause_manager/scripts/autoloads/pause_manager.gd"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[layer_names]
+
+2d_physics/layer_1="ledge solid"
+2d_physics/layer_2="slope solid"
+2d_physics/layer_3="ledge semisolid"
+2d_physics/layer_4="slope semisolid"
