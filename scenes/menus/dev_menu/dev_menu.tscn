@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://b23lglishsan5"]
+
+[ext_resource type="Theme" uid="uid://drphq0i1us4lg" path="res://resources/themes/devmenu.tres" id="1_6r0w0"]
+[ext_resource type="Script" path="res://scenes/menus/dev_menu/dev_menu.gd" id="2_duuqy"]
+[ext_resource type="PackedScene" uid="uid://oqqg6jlwwltp" path="res://scenes/menus/dev_menu/level_tree/level_tree.tscn" id="6_7qvs8"]
+
+[node name="DevMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6r0w0")
+script = ExtResource("2_duuqy")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Button that does nothing"
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Level Tree" parent="VBoxContainer/TabContainer" instance=ExtResource("6_7qvs8")]
+layout_mode = 2
+metadata/_tab_index = 0

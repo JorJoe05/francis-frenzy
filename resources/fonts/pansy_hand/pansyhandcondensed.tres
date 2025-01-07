@@ -1,0 +1,9 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://dqa5261lphce0"]
+
+[ext_resource type="FontFile" uid="uid://dydh1a0bwi0k" path="res://resources/fonts/pansy_hand/pansyhand.ttf" id="1_a21ga"]
+
+[resource]
+base_font = ExtResource("1_a21ga")
+spacing_space = -2
+spacing_top = -4
+spacing_bottom = -2

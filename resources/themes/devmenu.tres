@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://drphq0i1us4lg"]
+
+[ext_resource type="FontVariation" uid="uid://dqa5261lphce0" path="res://resources/fonts/pansy_hand/pansyhandcondensed.tres" id="1_x5gc6"]
+
+[resource]
+default_font = ExtResource("1_x5gc6")
