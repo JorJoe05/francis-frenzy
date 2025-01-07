@@ -22,12 +22,11 @@ Shaker="*res://addons/shaker/src/Shaker.gd"
 
 [display]
 
-window/size/viewport_width=640
-window/size/viewport_height=360
-window/size/window_width_override=1280
+window/size/viewport_width=424
+window/size/viewport_height=240
+window/size/window_width_override=1272
 window/size/window_height_override=720
-window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/mode="viewport"
 
 [editor_plugins]
 
@@ -39,3 +38,12 @@ enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg", "res://addon
 2d_physics/layer_2="slope solid"
 2d_physics/layer_3="ledge semisolid"
 2d_physics/layer_4="slope semisolid"
+
+[physics]
+
+common/physics_interpolation=true
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_transforms_to_pixel=true
