@@ -1,16 +1,16 @@
-class_name DetectorCollision
+class_name RayCollision
 extends Resource
 
 var position: Vector2
 var _point_intersections: Array
 var _ray_intersection: Dictionary
-var direction: int
+var rotation: int
 
-func _init(_position, point_intersections: Array, ray_intersection: Dictionary, _direction: int) -> void:
+func _init(_position, point_intersections: Array, ray_intersection: Dictionary, _rotation: float) -> void:
 	position = _position
 	_point_intersections = point_intersections
 	_ray_intersection = ray_intersection
-	direction = _direction
+	rotation = _rotation
 
 func is_point_colliding() -> bool:
 	var intersections = _point_intersections
@@ -36,8 +36,8 @@ func get_relative_snap_delta() -> float:
 	var intersection = _ray_intersection
 	if not intersection.is_empty():
 		var snap_delta = get_snap_delta()
-		var projection_target = Vector2.RIGHT.rotated(direction * (PI/2))
-		return snap_delta.project(projection_target).rotated(-projection_target.angle()).x
+		snap_delta = vector_to_local(snap_delta)
+		return snap_delta.x
 	return 0.0
 
 func get_normal() -> Vector2:
@@ -66,3 +66,9 @@ func get_properties() -> PackedStringArray:
 func get_collider() -> Node2D:
 	var intersection = _ray_intersection
 	return _ray_intersection["collider"]
+
+func vector_to_local(vector: Vector2) -> Vector2:
+	return vector.rotated(-rotation)
+
+func vector_to_global(vector: Vector2) -> Vector2:
+	return vector.rotated(rotation)
