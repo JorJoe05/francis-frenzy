@@ -1,0 +1,138 @@
+[gd_scene load_steps=16 format=3 uid="uid://b8nvfv376axfl"]
+
+[ext_resource type="Script" path="res://scenes/objects/player/player.gd" id="1_sifpd"]
+[ext_resource type="Texture2D" uid="uid://coa66m60luwe2" path="res://test.png" id="1_y0yjp"]
+[ext_resource type="Script" path="res://scripts/resource_types/player_physics/player_physics.gd" id="2_kl10t"]
+[ext_resource type="Script" path="res://bundles/state_machine/node_types/state_machine.gd" id="2_oux8g"]
+[ext_resource type="Script" path="res://scripts/node_types/components/health_component.gd" id="3_34qh2"]
+[ext_resource type="Script" path="res://scripts/node_types/colliders/rays/ray_pair.gd" id="3_e2x5u"]
+[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="5_bjq2s"]
+[ext_resource type="Script" path="res://scenes/objects/player/states/normal.gd" id="6_ctobj"]
+[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="7_86as6"]
+[ext_resource type="Script" path="res://scenes/objects/player/states/launch.gd" id="7_jrq6y"]
+
+[sub_resource type="Resource" id="Resource_t73ii"]
+script = ExtResource("2_kl10t")
+speed_run = 240.0
+speed_acc = 16.0
+speed_acc_air = 12.0
+speed_dec = 20.0
+speed_dec_air = 10.0
+speed_frc = 12.0
+speed_frc_air = 0.96875
+speed_grv = 16.0
+speed_fall = 360.0
+speed_jump_release = -60.0
+speed_hurt = -60.0
+jump_height = 80.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_huoee"]
+size = Vector2(16, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uesjy"]
+size = Vector2(12, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0q5ag"]
+size = Vector2(58, 19)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_881h8"]
+radius = 256.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine")]
+collision_layer = 15
+collision_mask = 15
+script = ExtResource("1_sifpd")
+state_machine = NodePath("StateMachine")
+physics = SubResource("Resource_t73ii")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_34qh2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_huoee")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("1_y0yjp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="Collision" type="Node2D" parent="."]
+
+[node name="RayPairs" type="Node2D" parent="Collision"]
+
+[node name="RayPairTop" type="Node2D" parent="Collision/RayPairs"]
+position = Vector2(0, -8)
+rotation = 4.71239
+script = ExtResource("3_e2x5u")
+
+[node name="RayPairBottom" type="Node2D" parent="Collision/RayPairs"]
+position = Vector2(0, 16)
+rotation = 1.5708
+script = ExtResource("3_e2x5u")
+
+[node name="RayPairLeft" type="Node2D" parent="Collision/RayPairs"]
+position = Vector2(-8, 4)
+rotation = 3.14159
+script = ExtResource("3_e2x5u")
+ledge_ray_offset_right = 0.0
+
+[node name="RayPairRight" type="Node2D" parent="Collision/RayPairs"]
+position = Vector2(8, 4)
+script = ExtResource("3_e2x5u")
+ledge_ray_offset_left = 0.0
+
+[node name="Hitboxes" type="Node2D" parent="Collision"]
+
+[node name="PlayerHitbox" type="Area2D" parent="Collision/Hitboxes"]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("5_bjq2s")
+type = &"Player"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Hitboxes/PlayerHitbox"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_uesjy")
+
+[node name="EnemyCheck" type="Node" parent="Collision/Hitboxes/PlayerHitbox"]
+script = ExtResource("7_86as6")
+type = &"Enemy"
+
+[node name="Scream" type="Area2D" parent="Collision/Hitboxes"]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("5_bjq2s")
+type = &"Scream"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Hitboxes/Scream"]
+position = Vector2(29, 2.5)
+shape = SubResource("RectangleShape2D_0q5ag")
+disabled = true
+
+[node name="ChargeScream" type="Area2D" parent="Collision/Hitboxes"]
+script = ExtResource("5_bjq2s")
+type = &"ChargeScream"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Hitboxes/ChargeScream"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_881h8")
+disabled = true
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_oux8g")
+initial_state = NodePath("Normal")
+
+[node name="Normal" type="Node" parent="StateMachine"]
+script = ExtResource("6_ctobj")
+
+[node name="Launch" type="Node" parent="StateMachine"]
+script = ExtResource("7_jrq6y")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 15.0
