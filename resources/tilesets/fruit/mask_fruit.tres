@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://bkd6odusilllq"]
+
+[ext_resource type="Shader" path="res://shaders/shader_tileset_mask.gdshader" id="1_brkpv"]
+[ext_resource type="Texture2D" uid="uid://esqublo6p4sb" path="res://sprites/levels/fruit/spr_fruit_fill_03.png" id="2_gx5v2"]
+
+[resource]
+shader = ExtResource("1_brkpv")
+shader_parameter/mask_color = Color(1, 0, 1, 1)
+shader_parameter/texture_size = Vector2(48, 48)
+shader_parameter/overlay_tex = ExtResource("2_gx5v2")
