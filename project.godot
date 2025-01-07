@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 PauseManager="*res://bundles/pause_manager/scripts/autoloads/pause_manager.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 Shaker="*res://addons/shaker/src/Shaker.gd"
+Game="*res://scripts/autoloads/game.gd"
+SceneManager="*res://bundles/scene_manager/scripts/autoloads/scene_manager.gd"
 
 [display]
 
