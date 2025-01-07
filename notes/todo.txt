@@ -1,0 +1,4 @@
+standardized scene structure (done I think)
+colliders
+basic HUD
+yorbs and hearts
