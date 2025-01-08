@@ -39,7 +39,7 @@ size = Vector2(58, 19)
 radius = 256.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine")]
-collision_layer = 15
+collision_layer = 0
 collision_mask = 15
 script = ExtResource("1_sifpd")
 state_machine = NodePath("StateMachine")
@@ -103,6 +103,7 @@ script = ExtResource("7_86as6")
 type = &"Enemy"
 
 [node name="Scream" type="Area2D" parent="Collision/Hitboxes"]
+visible = false
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("5_bjq2s")
@@ -114,6 +115,7 @@ shape = SubResource("RectangleShape2D_0q5ag")
 disabled = true
 
 [node name="ChargeScream" type="Area2D" parent="Collision/Hitboxes"]
+visible = false
 script = ExtResource("5_bjq2s")
 type = &"ChargeScream"
 

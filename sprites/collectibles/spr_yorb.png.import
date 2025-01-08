@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://br48k7w5w2lru"
-path="res://.godot/imported/spr_star_arrow_sparkle.png-7fc42f3e0aabdf929611cc040b074f14.ctex"
+uid="uid://dk8mfsocxltul"
+path="res://.godot/imported/spr_yorb.png-53c7f511bbb4d8c3c75843214b3919e5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/things/common/spr_star_arrow_sparkle.png"
-dest_files=["res://.godot/imported/spr_star_arrow_sparkle.png-7fc42f3e0aabdf929611cc040b074f14.ctex"]
+source_file="res://sprites/collectibles/spr_yorb.png"
+dest_files=["res://.godot/imported/spr_yorb.png-53c7f511bbb4d8c3c75843214b3919e5.ctex"]
 
 [params]
 

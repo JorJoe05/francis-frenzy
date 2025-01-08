@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://v3obkh7ur42n"]
+
+[ext_resource type="SpriteFrames" uid="uid://chdu2oracqrm8" path="res://sprites/collectibles/spr_yorb.tres" id="1_gqstw"]
+[ext_resource type="Script" path="res://scenes/objects/collectibles/yorb.gd" id="1_rhxuj"]
+[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="2_637ws"]
+[ext_resource type="AudioStream" uid="uid://cjhp5utrmxu7q" path="res://sounds/sfx/sfx_yorb.wav" id="3_moeqi"]
+[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="3_q73t1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xr1ca"]
+radius = 7.0
+
+[node name="Yorb" type="Node2D"]
+script = ExtResource("1_rhxuj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_gqstw")
+animation = &"yorb"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_moeqi")
+
+[node name="Hitbox2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("2_637ws")
+type = &"Yorb"
+
+[node name="PlayerFilter" type="Node" parent="Hitbox2D"]
+script = ExtResource("3_q73t1")
+type = &"Player"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox2D"]
+shape = SubResource("CircleShape2D_xr1ca")
+
+[connection signal="hitbox_entered" from="Hitbox2D/PlayerFilter" to="." method="_on_player_entered" flags=6]

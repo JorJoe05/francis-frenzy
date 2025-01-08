@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk2b5316l1a3"
-path="res://.godot/imported/spr_star_arrow_star.png-14848919dcb928f29a3d7a186c7e1336.ctex"
+uid="uid://t80xxog8o8rp"
+path="res://.godot/imported/spr_yorb_collect.png-a43f85e64dfbfd40b96141d6d951f027.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/things/common/spr_star_arrow_star.png"
-dest_files=["res://.godot/imported/spr_star_arrow_star.png-14848919dcb928f29a3d7a186c7e1336.ctex"]
+source_file="res://sprites/collectibles/spr_yorb_collect.png"
+dest_files=["res://.godot/imported/spr_yorb_collect.png-a43f85e64dfbfd40b96141d6d951f027.ctex"]
 
 [params]
 

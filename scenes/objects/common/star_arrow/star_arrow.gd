@@ -7,7 +7,8 @@ extends Node2D
 @export var debug_test_animation: bool = false:
 	set(value):
 		debug_test_animation = false
-		_animate()
+		if is_node_ready():
+			_animate()
 
 @export var launch_speed: float = 480.0:
 	set(value):
@@ -18,8 +19,8 @@ extends Node2D
 
 @onready var arrow: Node2D = $Arrow
 
-@onready var star_texture = preload("res://sprites/things/common/spr_star_arrow_star.png")
-@onready var sparkle_texture = preload("res://sprites/things/common/spr_star_arrow_sparkle.png")
+@onready var star_texture = preload("res://sprites/common/spr_star_arrow_star.png")
+@onready var sparkle_texture = preload("res://sprites/common/spr_star_arrow_sparkle.png")
 
 var orbits_rotation = 0.0
 var orbits_radius = 24.0

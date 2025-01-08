@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b61mvsl0r2pdr"
-path="res://.godot/imported/spr_galactic_arrow.png-905512606878a222c57c3801421ca8d8.ctex"
+uid="uid://br48k7w5w2lru"
+path="res://.godot/imported/spr_star_arrow_sparkle.png-74c3b58417afb0a1b880c0fdb1c3dafe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/things/common/spr_galactic_arrow.png"
-dest_files=["res://.godot/imported/spr_galactic_arrow.png-905512606878a222c57c3801421ca8d8.ctex"]
+source_file="res://sprites/common/spr_star_arrow_sparkle.png"
+dest_files=["res://.godot/imported/spr_star_arrow_sparkle.png-74c3b58417afb0a1b880c0fdb1c3dafe.ctex"]
 
 [params]
 

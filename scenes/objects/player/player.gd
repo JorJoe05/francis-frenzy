@@ -13,33 +13,22 @@ class_name Player
 var skid: bool = false
 var face: int = 1
 
+var yorbs: int = 0
+
 func _ready() -> void:
 	Game.player = self
 	up_direction = Vector2.from_angle(rotation - (PI/2))
 
 #region Physics
 
-func apply_friction(delta: float) -> void:
+func apply_friction() -> void:
 	if ground_on:
 		var acc_half = func(): velocity.x -= (min(abs(velocity.x), physics.speed_frc) * sign(velocity.x))
 		acc_half.call()
 		if velocity.x == 0:
 			skid = false
 	else:
-		velocity.x = velocity.x * physics.speed_frc_air
-		#velocity.x *= physics.speed_frc_air
-		#TODO fix delta time
-
-func accelerate(delta: float, sign: int) -> void:
-	var _speed_acc = physics.speed_acc if ground_on else physics.speed_acc_air
-	var _min_max = func(val1, val2): return max(val1, val2) if sign == -1 else min(val1, val2)
-	var acc_half = func(): velocity.x = _min_max.call(velocity.x + _speed_acc * sign, physics.speed_run * sign)
-	acc_half.call()
-
-func decelerate(delta: float, sign: int) -> void:
-	var _speed_dec = physics.speed_dec if ground_on else physics.speed_dec_air
-	var dec_half = func(): velocity.x -= _speed_dec * sign
-	dec_half.call()
+		velocity.x *= physics.speed_frc_air
 
 #endregion
 
@@ -135,13 +124,12 @@ func snap_floor() -> bool:
 		velocity.y = min(velocity.y, 0)
 	return ground_on
 
-func set_collider_up_direction() -> void:
-	var test = RayCollider.dir.up
-	var directions = [
-		[RayCollider.dir.up, RayCollider.dir.down, RayCollider.dir.left, RayCollider.dir.right],
-		[RayCollider.dir.down, RayCollider.dir.up, RayCollider.dir.right, RayCollider.dir.left],
-		[RayCollider.dir.right, RayCollider.dir.left, RayCollider.dir.down, RayCollider.dir.up],
-		[RayCollider.dir.left, RayCollider.dir.right, RayCollider.dir.up, RayCollider.dir.down]
-	]
+func set_gravity(new_up_direction) -> void:
+	var prev_up_direction = up_direction
+	up_direction = new_up_direction
+	var rotate_velocity = func():
+		velocity = velocity.rotated(angle_difference(new_up_direction.angle(), prev_up_direction.angle()))
+		rotation = new_up_direction.angle() + PI/2
+	rotate_velocity.call_deferred()
 
 #endregion
