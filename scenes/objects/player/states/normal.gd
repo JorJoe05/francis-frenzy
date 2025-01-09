@@ -13,7 +13,7 @@ func physics_update(_delta: float) -> void:
 	
 	#region 
 	
-	owner.ground_on = owner.is_on_floor()
+	#owner.ground_on = owner.is_on_floor()
 	
 	var input = Input.get_vector("left", "right", "down", "up")
 	input = owner.vector_to_global(input)
@@ -49,18 +49,22 @@ func physics_update(_delta: float) -> void:
 				owner.face = 1
 				owner.skid = false
 	
+	owner.velocity.y = min(owner.velocity.y + owner.physics.speed_grv, owner.physics.speed_fall)
+	
 	if Input.is_action_just_pressed("jump"):
 		owner.velocity.y = owner.physics.speed_jump_get()
+		owner.ground_on = false
 	
-	owner.velocity.y += owner.physics.speed_grv
+	owner.gravity_adjust_start()
 	
-	owner.velocity = owner.vector_to_global(owner.velocity)
+	owner.position += owner.velocity / 60.0
 	
-	owner.move_and_slide()
+	#owner.snap_floor()
+	owner.collide_floor()
+	owner.collide_ceiling()
+	owner.collide_walls()
 	
-	var to_local = func(): 
-		owner.velocity = owner.vector_to_local(owner.velocity)
-	to_local.call_deferred()
+	owner.gravity_adjust_end()
 	
 	
 

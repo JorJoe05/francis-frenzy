@@ -38,12 +38,16 @@ size = Vector2(58, 19)
 [sub_resource type="CircleShape2D" id="CircleShape2D_881h8"]
 radius = 256.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "ray_pair_top", "ray_pair_bottom", "ray_pair_left", "ray_pair_right")]
 collision_layer = 0
 collision_mask = 15
 script = ExtResource("1_sifpd")
 state_machine = NodePath("StateMachine")
 physics = SubResource("Resource_t73ii")
+ray_pair_top = NodePath("Collision/RayPairs/RayPairTop")
+ray_pair_bottom = NodePath("Collision/RayPairs/RayPairBottom")
+ray_pair_left = NodePath("Collision/RayPairs/RayPairLeft")
+ray_pair_right = NodePath("Collision/RayPairs/RayPairRight")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_34qh2")
@@ -51,6 +55,7 @@ script = ExtResource("3_34qh2")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_huoee")
+disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -8)
@@ -69,20 +74,23 @@ anim_player = NodePath("../AnimationPlayer")
 position = Vector2(0, -8)
 rotation = 4.71239
 script = ExtResource("3_e2x5u")
+ledge_ray_offset_left = 0.0
+ledge_ray_offset_right = 0.0
 
 [node name="RayPairBottom" type="Node2D" parent="Collision/RayPairs"]
 position = Vector2(0, 16)
 rotation = 1.5708
 script = ExtResource("3_e2x5u")
+one_way = true
 
 [node name="RayPairLeft" type="Node2D" parent="Collision/RayPairs"]
-position = Vector2(-8, 4)
+position = Vector2(-10, 4)
 rotation = 3.14159
 script = ExtResource("3_e2x5u")
 ledge_ray_offset_right = 0.0
 
 [node name="RayPairRight" type="Node2D" parent="Collision/RayPairs"]
-position = Vector2(8, 4)
+position = Vector2(10, 4)
 script = ExtResource("3_e2x5u")
 ledge_ray_offset_left = 0.0
 
@@ -136,5 +144,4 @@ script = ExtResource("7_jrq6y")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 process_callback = 0
-position_smoothing_enabled = true
 position_smoothing_speed = 15.0

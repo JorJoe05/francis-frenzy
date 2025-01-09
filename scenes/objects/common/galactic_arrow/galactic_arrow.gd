@@ -59,6 +59,7 @@ func _ready() -> void:
 	orb_torus_small = Sprite3D.new()
 	orb_torus_small.texture = orb_texture
 	orb_torus_small.billboard = true
+	orb_torus_small.no_depth_test = true
 	orb_torus_small.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 	orb_torus_small.position.z = orbit_radius_small
 	orbit_torus_small.add_child(orb_torus_small)
@@ -75,6 +76,7 @@ func _ready() -> void:
 	orb_torus_large = Sprite3D.new()
 	orb_torus_large.texture = orb_texture
 	orb_torus_large.billboard = true
+	orb_torus_large.no_depth_test = true
 	orb_torus_large.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 	orb_torus_large.position.z = orbit_radius_large
 	orbit_torus_large.add_child(orb_torus_large)

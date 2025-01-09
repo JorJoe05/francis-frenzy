@@ -65,7 +65,7 @@ func _get_point_intersections(max_results: int = 32) -> Array:
 		return []
 	var params = PhysicsPointQueryParameters2D.new()
 	params.collision_mask = collision_mask
-	params.position = global_position
+	params.position = global_position# + Vector2(1, 0).rotated(global_rotation)
 	params.exclude = [owner.get_rid()]
 	return space.intersect_point(params, max_results)
 
@@ -74,11 +74,11 @@ func _get_ray_intersection() -> Dictionary:
 		return {}
 	var params = PhysicsRayQueryParameters2D.new()
 	params.collision_mask = collision_mask
-	params.from = (Vector2.LEFT * 8) + global_position
-	params.to = (Vector2.RIGHT * 8) + global_position
+	params.from = (Vector2.LEFT * 8).rotated(global_rotation) + global_position
+	params.to = (Vector2.RIGHT * 8).rotated(global_rotation) + global_position
 	params.hit_from_inside = true
 	params.exclude = [owner.get_rid()]
 	return space.intersect_ray(params)
 
 func get_collision() -> RayCollision:
-	return RayCollision.new(global_position, _get_point_intersections(), _get_ray_intersection(), rotation)
+	return RayCollision.new(global_position, _get_point_intersections(), _get_ray_intersection(), global_rotation)

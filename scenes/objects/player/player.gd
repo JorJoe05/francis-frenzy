@@ -5,6 +5,7 @@ class_name Player
 
 @export var physics: PlayerPhysics
 
+@export_group("Ray Pairs", "ray")
 @export var ray_pair_top: RayCollider
 @export var ray_pair_bottom: RayCollider
 @export var ray_pair_left: RayCollider
@@ -36,81 +37,62 @@ func apply_friction() -> void:
 
 func _collide(detector: RayCollider) -> bool:
 	var collision = detector.get_collision()
-	if collision.is_point_colliding():
-		position += collision.get_snap_delta()
-		velocity = velocity.project(Vector2.UP.rotated(collision.direction * (PI/2)))
-		return true
-	return false
+	var out = false
+	var limit: int = 8
+	
+	velocity = collision.vector_to_local(velocity)
+	if velocity.x < 0:
+		pass
+	else:
+		while collision.is_point_colliding() and limit > 0:
+			position += collision.get_snap_delta()
+			velocity.x = min(velocity.x, 0)
+			out = true
+			limit -= 1
+			collision = detector.get_collision()
+	
+	velocity = collision.vector_to_global(velocity)
+	normal = collision.get_normal()
+	
+	return out
 
 func _snap(detector: RayCollider) -> bool:
 	var collision = detector.get_collision()
 	if collision.is_ray_colliding():
 		position += collision.get_snap_delta()
-		velocity = velocity.project(Vector2.UP.rotated(collision.direction * (PI/2)))
-		var collider = collision.get_collider()
-		if collider is CharacterBody2D:
-			var adjust = func(): position += collider.velocity / ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
-			adjust.call_deferred()
-		if collider is StaticBody2D:
-			var adjust = func(): position += collider.constant_linear_velocity / ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
-			adjust.call_deferred()
-
-		if collider is TileMapLayer:
-			var collision_point = Vector2i(collision.position)
-			var collision_direction = collision.direction
-			var offset = Vector2i(0,0)
-			match(collision_direction):
-				RayCollider.dir.right:
-					offset.x += 16
-				RayCollider.dir.down:
-					offset.y += 16
-				RayCollider.dir.left:
-					offset.x -= 16
-				RayCollider.dir.up:
-					offset.y -= 16
-			var cell = collider.local_to_map(collision_point)
-			var tile_data = collider.get_cell_tile_data(cell)
-			
-			if !tile_data:
-				cell = collider.local_to_map(collision_point+offset)
-				tile_data = collider.get_cell_tile_data(cell)
-			# Assume right = 0, down = 1, etc, and make sure tiles that collide with the
-			# x detector have a physics layer and approriate velocity on layer x + 1
-			# where x is right,down,left,up. physics layer 0 is the tile's "body"
-			if tile_data:
-				var tile_velocity = tile_data.get_constant_linear_velocity(collision_direction + 1)
-				if tile_velocity:
-					var adjust = func(): position += tile_velocity / ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
-					adjust.call_deferred()
+		velocity = collision.vector_to_local(velocity)
+		velocity.x = min(velocity.x, 0)
+		velocity = collision.vector_to_global(velocity)
+		normal = collision.get_normal()
 		return true
 	return false
 
 func collide_floor() -> bool:
-	if velocity.y < 0:
-		ground_on = false
-		return ground_on
 	ground_on = _collide(ray_pair_bottom)
 	if ground_on:
-		velocity.y = min(velocity.y, 0)
-		print(velocity)
+		pass#velocity.y = min(velocity.y, 0)
+		#print(velocity)
 	return ground_on
 
 func collide_ceiling() -> bool:
 	var _collide = _collide(ray_pair_top)
 	if _collide:
-		velocity.y = max(velocity.y, 0)
+		pass
+		#velocity.y = max(velocity.y, 0)
 	return _collide
 
 func collide_left_wall() -> bool:
 	var _collide = _collide(ray_pair_left)
 	if _collide:
-		velocity.x = max(velocity.x, 0)
+		pass
+		#velocity.x = max(velocity.x, 0)
 	return _collide
 
 func collide_right_wall() -> bool:
 	var _collide = _collide(ray_pair_right)
 	if _collide:
-		velocity.x = min(velocity.x, 0)
+		pass
+		#velocity.x = min(velocity.x, 0)
 	return _collide
 
 func collide_walls() -> bool:
@@ -121,8 +103,17 @@ func snap_floor() -> bool:
 		return false
 	ground_on = _snap(ray_pair_bottom)
 	if ground_on:
-		velocity.y = min(velocity.y, 0)
+		pass
+		#velocity.y = min(velocity.y, 0)
 	return ground_on
+
+func gravity_adjust_start() -> void:
+	velocity = vector_to_global(velocity)
+	normal = vector_to_global(normal)
+
+func gravity_adjust_end() -> void:
+	velocity = vector_to_local(velocity)
+	normal = vector_to_local(normal)
 
 func set_gravity(new_up_direction) -> void:
 	var prev_up_direction = up_direction
