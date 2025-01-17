@@ -27,7 +27,7 @@ script = ExtResource("2_drjvk")
 
 [node name="PlayerFilter" type="Node" parent="Hitbox2D"]
 script = ExtResource("3_vse5w")
-type = &"Player"
+types = Array[StringName]([&"Player"])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox2D"]
 shape = SubResource("CircleShape2D_v45ma")

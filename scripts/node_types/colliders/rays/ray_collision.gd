@@ -2,9 +2,10 @@ class_name RayCollision
 extends Resource
 
 var position: Vector2
+var rotation: float
+
 var _point_intersections: Array
 var _ray_intersection: Dictionary
-var rotation: float
 
 func _init(_position, point_intersections: Array, ray_intersection: Dictionary, _rotation: float) -> void:
 	position = _position

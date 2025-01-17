@@ -1,0 +1,23 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://c8iulxguw5t7l"]
+
+[ext_resource type="Texture2D" uid="uid://bvghwv12h1trm" path="res://sprites/enemies/parent/spr_example_hurt.png" id="1_cs7dr"]
+[ext_resource type="Texture2D" uid="uid://bkvljo7th6n4n" path="res://sprites/enemies/parent/spr_example_evil.png" id="1_jaroq"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cs7dr")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_jaroq")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]

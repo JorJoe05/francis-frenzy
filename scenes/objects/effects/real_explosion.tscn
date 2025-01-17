@@ -1,0 +1,151 @@
+[gd_scene load_steps=22 format=3 uid="uid://bdkqv4eh0rk0x"]
+
+[ext_resource type="Texture2D" uid="uid://86wr7i23k4ej" path="res://sprites/effects/spr_explosion_real.png" id="1_htqsh"]
+[ext_resource type="AudioStream" uid="uid://c5yayswpo0a0p" path="res://sounds/sfx/sfx_explosion.wav" id="2_4e5i1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_618y0"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(0, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8i41q"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(71, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_it54e"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(142, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5utf"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(213, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rj310"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(284, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71hsc"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(355, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3q7c"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(426, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jf42"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(497, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wudjs"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(568, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5jydk"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(639, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_52j7p"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(710, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0phi"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(781, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wf78"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(852, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aplo0"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(923, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojtd6"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(994, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wu5j4"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(1065, 0, 71, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dt03p"]
+atlas = ExtResource("1_htqsh")
+region = Rect2(1136, 0, 71, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u7biy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_618y0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8i41q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_it54e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5utf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rj310")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71hsc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3q7c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8jf42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wudjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5jydk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_52j7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0phi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wf78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aplo0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojtd6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wu5j4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dt03p")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 15.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_d8kfq"]
+script/source = "extends AnimatedSprite2D
+
+func _ready() -> void:
+	animation_finished.connect(queue_free, CONNECT_ONE_SHOT)
+"
+
+[node name="RealExplosion" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_u7biy")
+animation = &"explode"
+frame = 16
+frame_progress = 1.0
+script = SubResource("GDScript_d8kfq")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_4e5i1")
+autoplay = true
+
+[connection signal="ready" from="." to="." method="play" flags=6 binds= ["explode"]]

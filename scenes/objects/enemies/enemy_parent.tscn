@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://cq218rdgk2yal"]
+
+[ext_resource type="Script" path="res://scenes/objects/enemies/enemy_parent.gd" id="1_07wmg"]
+[ext_resource type="SpriteFrames" uid="uid://c8iulxguw5t7l" path="res://sprites/enemies/parent/example.tres" id="2_0rscj"]
+[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="3_2imb0"]
+[ext_resource type="Script" path="res://scripts/node_types/colliders/rays/ray_unit.gd" id="3_o7s5o"]
+[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="4_j8iaq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oy1df"]
+size = Vector2(12, 20)
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_07wmg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_0rscj")
+animation = &"walk"
+frame_progress = 0.453512
+
+[node name="Hitbox2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("3_2imb0")
+type = &"Enemy"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox2D"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_oy1df")
+
+[node name="PlayerFilter" type="Node" parent="Hitbox2D"]
+script = ExtResource("4_j8iaq")
+types = Array[StringName]([&"Player", &"Enemy_Dead"])
+
+[node name="EnemyFilter" type="Node" parent="Hitbox2D"]
+script = ExtResource("4_j8iaq")
+types = Array[StringName]([&"Enemy"])
+
+[node name="Floor" type="Node2D" parent="."]
+position = Vector2(0, 16)
+rotation = 1.5708
+script = ExtResource("3_o7s5o")
+one_way = true
+
+[node name="Left" type="Node2D" parent="."]
+position = Vector2(-8, 0)
+rotation = 3.14159
+script = ExtResource("3_o7s5o")
+
+[node name="Right" type="Node2D" parent="."]
+position = Vector2(8, 0)
+script = ExtResource("3_o7s5o")
+
+[connection signal="ready" from="." to="AnimatedSprite2D" method="play" binds= ["walk"]]
+[connection signal="hitbox_entered" from="Hitbox2D/PlayerFilter" to="." method="_hit" flags=6]
+[connection signal="hitbox_entered" from="Hitbox2D/EnemyFilter" to="." method="_destroy" unbinds=1]

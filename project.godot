@@ -29,11 +29,31 @@ window/size/viewport_width=424
 window/size/viewport_height=240
 window/size/window_width_override=1272
 window/size/window_height_override=720
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg", "res://addons/shaker/plugin.cfg")
+enabled=PackedStringArray("res://addons/aseprite_importer/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/shaker/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://addons/": "red",
+"res://bundles/": "orange",
+"res://notes/": "yellow",
+"res://resources/": "green",
+"res://scenes/": "blue",
+"res://scenes/backgrounds/": "red",
+"res://scenes/levels/": "orange",
+"res://scenes/menus/": "yellow",
+"res://scenes/objects/": "green",
+"res://scenes/ui/": "blue",
+"res://script_templates/": "red",
+"res://scripts/": "purple",
+"res://shaders/": "orange",
+"res://sounds/": "yellow",
+"res://sprites/": "green"
+}
 
 [input]
 
@@ -93,4 +113,3 @@ common/physics_interpolation=true
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-2d/snap/snap_2d_transforms_to_pixel=true

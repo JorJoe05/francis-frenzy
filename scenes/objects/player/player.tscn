@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b8nvfv376axfl"]
+[gd_scene load_steps=18 format=3 uid="uid://b8nvfv376axfl"]
 
 [ext_resource type="Script" path="res://scenes/objects/player/player.gd" id="1_sifpd"]
 [ext_resource type="Texture2D" uid="uid://coa66m60luwe2" path="res://test.png" id="1_y0yjp"]
@@ -6,14 +6,20 @@
 [ext_resource type="Script" path="res://bundles/state_machine/node_types/state_machine.gd" id="2_oux8g"]
 [ext_resource type="Script" path="res://scripts/node_types/components/health_component.gd" id="3_34qh2"]
 [ext_resource type="Script" path="res://scripts/node_types/colliders/rays/ray_pair.gd" id="3_e2x5u"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="4_vq0i8"]
 [ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="5_bjq2s"]
+[ext_resource type="Resource" uid="uid://byp37ke33um88" path="res://resources/misc/default_pcam_tween.tres" id="5_kjaf5"]
 [ext_resource type="Script" path="res://scenes/objects/player/states/normal.gd" id="6_ctobj"]
 [ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="7_86as6"]
 [ext_resource type="Script" path="res://scenes/objects/player/states/launch.gd" id="7_jrq6y"]
+[ext_resource type="AudioStream" uid="uid://c4cjp4ca1n567" path="res://sounds/sfx/sfx_close_scream.ogg" id="13_7ibcn"]
 
 [sub_resource type="Resource" id="Resource_t73ii"]
 script = ExtResource("2_kl10t")
 speed_run = 240.0
+speed_dash = 360.0
+speed_dash_boost = 120.0
+dash_duration = 1.0
 speed_acc = 16.0
 speed_acc_air = 12.0
 speed_dec = 20.0
@@ -22,12 +28,9 @@ speed_frc = 12.0
 speed_frc_air = 0.96875
 speed_grv = 16.0
 speed_fall = 360.0
-speed_jump_release = -60.0
+speed_jump_release = -120.0
 speed_hurt = -60.0
 jump_height = 80.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_huoee"]
-size = Vector2(16, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uesjy"]
 size = Vector2(12, 18)
@@ -38,24 +41,38 @@ size = Vector2(58, 19)
 [sub_resource type="CircleShape2D" id="CircleShape2D_881h8"]
 radius = 256.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "ray_pair_top", "ray_pair_bottom", "ray_pair_left", "ray_pair_right")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "camera", "collider_root", "ray_collider_top", "ray_collider_bottom", "ray_collider_left", "ray_collider_right", "hitbox", "sprite_root")]
 collision_layer = 0
 collision_mask = 15
 script = ExtResource("1_sifpd")
 state_machine = NodePath("StateMachine")
+camera = NodePath("CameraTarget/PhantomCamera2D")
 physics = SubResource("Resource_t73ii")
-ray_pair_top = NodePath("Collision/RayPairs/RayPairTop")
-ray_pair_bottom = NodePath("Collision/RayPairs/RayPairBottom")
-ray_pair_left = NodePath("Collision/RayPairs/RayPairLeft")
-ray_pair_right = NodePath("Collision/RayPairs/RayPairRight")
+collider_root = NodePath("Collision")
+ray_collider_top = NodePath("Collision/RayPairs/RayPairTop")
+ray_collider_bottom = NodePath("Collision/RayPairs/RayPairBottom")
+ray_collider_left = NodePath("Collision/RayPairs/RayPairLeft")
+ray_collider_right = NodePath("Collision/RayPairs/RayPairRight")
+hitbox = NodePath("Collision/Hitboxes/PlayerHitbox")
+sprite_root = NodePath("Sprite2D")
+metadata/_edit_group_ = true
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_34qh2")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
-shape = SubResource("RectangleShape2D_huoee")
-disabled = true
+[node name="CameraTarget" type="Marker2D" parent="."]
+position = Vector2(24, 0)
+
+[node name="PhantomCamera2D" type="Node2D" parent="CameraTarget" node_paths=PackedStringArray("follow_target")]
+top_level = true
+position = Vector2(24, 0)
+script = ExtResource("4_vq0i8")
+priority = 1
+follow_mode = 2
+follow_target = NodePath("..")
+tween_resource = ExtResource("5_kjaf5")
+follow_damping = true
+draw_limits = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -8)
@@ -87,12 +104,10 @@ one_way = true
 position = Vector2(-10, 4)
 rotation = 3.14159
 script = ExtResource("3_e2x5u")
-ledge_ray_offset_right = 0.0
 
 [node name="RayPairRight" type="Node2D" parent="Collision/RayPairs"]
 position = Vector2(10, 4)
 script = ExtResource("3_e2x5u")
-ledge_ray_offset_left = 0.0
 
 [node name="Hitboxes" type="Node2D" parent="Collision"]
 
@@ -108,7 +123,7 @@ shape = SubResource("RectangleShape2D_uesjy")
 
 [node name="EnemyCheck" type="Node" parent="Collision/Hitboxes/PlayerHitbox"]
 script = ExtResource("7_86as6")
-type = &"Enemy"
+types = Array[StringName]([&"Enemy"])
 
 [node name="Scream" type="Area2D" parent="Collision/Hitboxes"]
 visible = false
@@ -142,6 +157,6 @@ script = ExtResource("6_ctobj")
 [node name="Launch" type="Node" parent="StateMachine"]
 script = ExtResource("7_jrq6y")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-process_callback = 0
-position_smoothing_speed = 15.0
+[node name="Troll" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("13_7ibcn")

@@ -20,16 +20,18 @@ func physics_update(_delta: float) -> void:
 	
 	var _speed_dec = owner.physics.speed_dec if owner.ground_on else owner.physics.speed_dec_air
 	var _speed_acc = owner.physics.speed_acc if owner.ground_on else owner.physics.speed_acc_air
+	var _speed_run = owner.physics.speed_run# if owner.dash > 0.0 else owner.physics.speed_run
 	
 	match int(sign(round(input.x))):
 		-1:
 			if owner.velocity.x > 0:
 				owner.velocity.x += -_speed_dec
 				if owner.ground_on:
+					owner.face = -1
 					owner.skid = true
 			else:
-				if owner.velocity.x >= -owner.physics.speed_run:
-					owner.velocity.x = max(owner.velocity.x - _speed_acc, -owner.physics.speed_run)
+				if owner.velocity.x >= -_speed_run:
+					owner.velocity.x = max(owner.velocity.x - _speed_acc, -_speed_run)
 				else:
 					owner.apply_friction()
 				owner.face = -1
@@ -40,10 +42,11 @@ func physics_update(_delta: float) -> void:
 			if owner.velocity.x < 0:
 				owner.velocity.x += _speed_dec
 				if owner.ground_on:
+					owner.face = 1
 					owner.skid = true
 			else:
-				if owner.velocity.x <= owner.physics.speed_run:
-					owner.velocity.x = min(owner.velocity.x + _speed_acc, owner.physics.speed_run)
+				if owner.velocity.x <= _speed_run:
+					owner.velocity.x = min(owner.velocity.x + _speed_acc, _speed_run)
 				else:
 					owner.apply_friction()
 				owner.face = 1
@@ -54,19 +57,21 @@ func physics_update(_delta: float) -> void:
 	if Input.is_action_just_pressed("jump"):
 		owner.velocity.y = owner.physics.speed_jump_get()
 		owner.ground_on = false
+	if Input.is_action_just_released("jump"):
+		owner.velocity.y = max(owner.velocity.y, owner.physics.speed_jump_release)
 	
 	owner.gravity_adjust_start()
 	
 	owner.position += owner.velocity / 60.0
 	
-	#owner.snap_floor()
-	owner.collide_floor()
+	if owner.ground_on:
+		owner.snap_floor()
+	else:
+		owner.collide_floor()
 	owner.collide_ceiling()
 	owner.collide_walls()
 	
 	owner.gravity_adjust_end()
-	
-	
 
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.

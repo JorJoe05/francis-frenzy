@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://b65t6basqirb0"]
+
+[ext_resource type="Shader" path="res://shaders/shader_tileset_mask.gdshader" id="1_vj2to"]
+[ext_resource type="Texture2D" uid="uid://dv5m67mp3nkkh" path="res://sprites/levels/hippie/spr_hippie_fill.png" id="2_r3e23"]
+
+[resource]
+shader = ExtResource("1_vj2to")
+shader_parameter/mask_color = Color(1, 0, 1, 1)
+shader_parameter/texture_size = Vector2(32, 32)
+shader_parameter/overlay_tex = ExtResource("2_r3e23")

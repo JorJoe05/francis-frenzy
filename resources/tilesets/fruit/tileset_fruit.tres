@@ -1,8 +1,7 @@
-[gd_resource type="TileSet" load_steps=6 format=3 uid="uid://dhypi1g5xr57k"]
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://dhypi1g5xr57k"]
 
 [ext_resource type="Material" uid="uid://bkd6odusilllq" path="res://resources/tilesets/fruit/mask_fruit.tres" id="1_s8knn"]
 [ext_resource type="Texture2D" uid="uid://dcoy6qjafsvsy" path="res://sprites/levels/fruit/spr_fruit_tileset.png" id="2_jcer6"]
-[ext_resource type="PackedScene" uid="uid://v3obkh7ur42n" path="res://scenes/objects/collectibles/yorb.tscn" id="3_qdvvg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bsyw3"]
 texture = ExtResource("2_jcer6")
@@ -513,10 +512,6 @@ texture = ExtResource("2_jcer6")
 17:2/0/material = ExtResource("1_s8knn")
 17:2/0/physics_layer_1/polygon_0/points = PackedVector2Array(-8, -24, 8, -24, 8, -8, -8, 0)
 
-[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_jc5y3"]
-resource_name = "Yorb"
-scenes/1/scene = ExtResource("3_qdvvg")
-
 [resource]
 physics_layer_0/collision_layer = 1
 physics_layer_1/collision_layer = 2
@@ -531,4 +526,3 @@ terrain_set_0/terrain_0/color = Color(0, 1, 0, 1)
 terrain_set_0/terrain_1/name = "OneWay"
 terrain_set_0/terrain_1/color = Color(0, 0, 1, 1)
 sources/0 = SubResource("TileSetAtlasSource_bsyw3")
-sources/1 = SubResource("TileSetScenesCollectionSource_jc5y3")

@@ -91,7 +91,9 @@ func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		pass
 	
-	render.global_rotation = 0.0
+	rotation = snapped(rotation, PI/2)
+	
+	render.rotation = -global_rotation
 	
 	arrow.rotation.z = -global_rotation
 	
@@ -126,3 +128,4 @@ func _on_player_hitbox_entered(hitbox: Hitbox2D) -> void:
 	hitbox.owner.position = $RayCast2D.get_collision_point() - Vector2(16, 0).rotated(global_rotation)
 	hitbox.owner.set_gravity(Vector2.LEFT.rotated(global_rotation))
 	hitbox.owner.velocity = Vector2.ZERO
+	hitbox.owner.reset_physics_interpolation()

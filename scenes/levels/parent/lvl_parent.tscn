@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://c23tm2pl04s3v"]
+
+[ext_resource type="Script" path="res://scenes/levels/parent/lvl_parent.gd" id="1_l2bti"]
+[ext_resource type="PackedScene" uid="uid://cnage6mso7pcu" path="res://scenes/objects/system/global_camera.tscn" id="1_opy71"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_l2bti")
+
+[node name="Background" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="TileMapLayers" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Level Objects" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Collectibles" type="Node2D" parent="Level Objects"]
+metadata/_edit_lock_ = true
+
+[node name="Platforms" type="Node2D" parent="Level Objects"]
+metadata/_edit_lock_ = true
+
+[node name="Hazards" type="Node2D" parent="Level Objects"]
+metadata/_edit_lock_ = true
+
+[node name="Enemies" type="Node2D" parent="Level Objects"]
+metadata/_edit_lock_ = true
+
+[node name="Other" type="Node2D" parent="Level Objects"]
+metadata/_edit_lock_ = true
+
+[node name="Triggers" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Shared" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="GlobalCamera" parent="Shared" instance=ExtResource("1_opy71")]
+
+[node name="UI" type="CanvasLayer" parent="."]
