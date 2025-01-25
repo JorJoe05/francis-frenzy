@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://b23lglishsan5"]
+[gd_scene load_steps=4 format=3 uid="uid://bxb2lavdxq8q3"]
 
 [ext_resource type="Theme" uid="uid://drphq0i1us4lg" path="res://resources/themes/devmenu.tres" id="1_6r0w0"]
-[ext_resource type="Script" path="res://scenes/menus/dev_menu/dev_menu.gd" id="2_duuqy"]
+[ext_resource type="Script" uid="uid://dqpwitgqhn2lb" path="res://scenes/menus/dev_menu/dev_menu.gd" id="2_duuqy"]
 [ext_resource type="PackedScene" uid="uid://oqqg6jlwwltp" path="res://scenes/menus/dev_menu/level_tree/level_tree.tscn" id="6_7qvs8"]
 
 [node name="DevMenu" type="Control"]

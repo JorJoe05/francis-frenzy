@@ -4,6 +4,8 @@ func _ready() -> void:
 	$AnimatedSprite2D.play("yorb")
 
 func collect() -> void:
+	reparent(get_tree().root)
+	reset_physics_interpolation()
 	$AnimatedSprite2D.play("collect")
 	$AudioStreamPlayer2D.play()
 	await $AnimatedSprite2D.animation_finished

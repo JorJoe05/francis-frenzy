@@ -7,9 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://b8nvfv376axfl" path="res://scenes/objects/player/player.tscn" id="5_1ring"]
 [ext_resource type="PackedScene" uid="uid://8r0ihgodgdcb" path="res://scenes/ui/hud.tscn" id="6_npjgk"]
 [ext_resource type="PackedScene" uid="uid://cq218rdgk2yal" path="res://scenes/objects/enemies/enemy_parent.tscn" id="7_aoje1"]
-[ext_resource type="Script" path="res://scripts/node_types/camera/camera_trapper.gd" id="8_fdki5"]
-[ext_resource type="Script" path="res://scripts/node_types/utility/positioning/player_follow.gd" id="9_tifek"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="10_gbsa8"]
+[ext_resource type="Script" uid="uid://cbmn7txrmt50o" path="res://scripts/node_types/camera/camera_trapper.gd" id="8_fdki5"]
+[ext_resource type="Script" uid="uid://bccjad2ayhjja" path="res://scripts/node_types/utility/positioning/player_follow.gd" id="9_tifek"]
+[ext_resource type="Script" uid="uid://c4ggqbuj1diwc" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="10_gbsa8"]
 [ext_resource type="Resource" uid="uid://byp37ke33um88" path="res://resources/misc/default_pcam_tween.tres" id="11_mneeu"]
 
 [node name="TestLevel" instance=ExtResource("1_xe06e")]
@@ -57,7 +57,7 @@ limit_bottom = 240
 metadata/_edit_lock_ = true
 
 [node name="Enemy" parent="." index="6" instance=ExtResource("7_aoje1")]
-position = Vector2(608, -24)
+position = Vector2(160, 48)
 
 [node name="Enemy3" parent="." index="7" instance=ExtResource("7_aoje1")]
 position = Vector2(728, -88)

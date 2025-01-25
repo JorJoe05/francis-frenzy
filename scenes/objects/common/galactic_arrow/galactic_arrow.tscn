@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://b7pktu3y7xvqc"]
 
-[ext_resource type="Script" path="res://scenes/objects/common/galactic_arrow/galactic_arrow.gd" id="1_lq27t"]
+[ext_resource type="Script" uid="uid://dvverrnoqdebf" path="res://scenes/objects/common/galactic_arrow/galactic_arrow.gd" id="1_lq27t"]
 [ext_resource type="AudioStream" uid="uid://t0i7b2ffucrp" path="res://sounds/sfx/sfx_galacticarrow.ogg" id="2_6q3gm"]
-[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="3_8ilat"]
-[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="4_irm42"]
+[ext_resource type="Script" uid="uid://om0n3vs52m54" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="3_8ilat"]
+[ext_resource type="Script" uid="uid://cnnotig7v01" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="4_irm42"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v45ma"]
 radius = 24.0

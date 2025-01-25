@@ -1,17 +1,17 @@
 [gd_scene load_steps=18 format=3 uid="uid://b8nvfv376axfl"]
 
-[ext_resource type="Script" path="res://scenes/objects/player/player.gd" id="1_sifpd"]
+[ext_resource type="Script" uid="uid://bu22ddtayqdvv" path="res://scenes/objects/player/player.gd" id="1_sifpd"]
 [ext_resource type="Texture2D" uid="uid://coa66m60luwe2" path="res://test.png" id="1_y0yjp"]
-[ext_resource type="Script" path="res://scripts/resource_types/player_physics/player_physics.gd" id="2_kl10t"]
-[ext_resource type="Script" path="res://bundles/state_machine/node_types/state_machine.gd" id="2_oux8g"]
-[ext_resource type="Script" path="res://scripts/node_types/components/health_component.gd" id="3_34qh2"]
-[ext_resource type="Script" path="res://scripts/node_types/colliders/rays/ray_pair.gd" id="3_e2x5u"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="4_vq0i8"]
-[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="5_bjq2s"]
+[ext_resource type="Script" uid="uid://ctihdwepi0tl6" path="res://scripts/resource_types/player_physics/player_physics.gd" id="2_kl10t"]
+[ext_resource type="Script" uid="uid://tw058l3yxrbe" path="res://bundles/state_machine/node_types/state_machine.gd" id="2_oux8g"]
+[ext_resource type="Script" uid="uid://dp8cy2ftfoxfq" path="res://scripts/node_types/components/health_component.gd" id="3_34qh2"]
+[ext_resource type="Script" uid="uid://7yyitp7giquq" path="res://scripts/node_types/colliders/rays/ray_pair.gd" id="3_e2x5u"]
+[ext_resource type="Script" uid="uid://c4ggqbuj1diwc" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="4_vq0i8"]
+[ext_resource type="Script" uid="uid://om0n3vs52m54" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="5_bjq2s"]
 [ext_resource type="Resource" uid="uid://byp37ke33um88" path="res://resources/misc/default_pcam_tween.tres" id="5_kjaf5"]
-[ext_resource type="Script" path="res://scenes/objects/player/states/normal.gd" id="6_ctobj"]
-[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="7_86as6"]
-[ext_resource type="Script" path="res://scenes/objects/player/states/launch.gd" id="7_jrq6y"]
+[ext_resource type="Script" uid="uid://dbuqdhafwop0m" path="res://scenes/objects/player/states/normal.gd" id="6_ctobj"]
+[ext_resource type="Script" uid="uid://cnnotig7v01" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="7_86as6"]
+[ext_resource type="Script" uid="uid://doqoaksuo8foh" path="res://scenes/objects/player/states/launch.gd" id="7_jrq6y"]
 [ext_resource type="AudioStream" uid="uid://c4cjp4ca1n567" path="res://sounds/sfx/sfx_close_scream.ogg" id="13_7ibcn"]
 
 [sub_resource type="Resource" id="Resource_t73ii"]
@@ -42,6 +42,7 @@ size = Vector2(58, 19)
 radius = 256.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "camera", "collider_root", "ray_collider_top", "ray_collider_bottom", "ray_collider_left", "ray_collider_right", "hitbox", "sprite_root")]
+z_index = 1
 collision_layer = 0
 collision_mask = 15
 script = ExtResource("1_sifpd")
@@ -160,3 +161,4 @@ script = ExtResource("7_jrq6y")
 [node name="Troll" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("13_7ibcn")
+bus = &"Sfx"

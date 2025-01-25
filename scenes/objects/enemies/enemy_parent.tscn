@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://cq218rdgk2yal"]
 
-[ext_resource type="Script" path="res://scenes/objects/enemies/enemy_parent.gd" id="1_07wmg"]
+[ext_resource type="Script" uid="uid://dxryxchheomr1" path="res://scenes/objects/enemies/enemy_parent.gd" id="1_07wmg"]
 [ext_resource type="SpriteFrames" uid="uid://c8iulxguw5t7l" path="res://sprites/enemies/parent/example.tres" id="2_0rscj"]
-[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="3_2imb0"]
-[ext_resource type="Script" path="res://scripts/node_types/colliders/rays/ray_unit.gd" id="3_o7s5o"]
-[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="4_j8iaq"]
+[ext_resource type="Script" uid="uid://om0n3vs52m54" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="3_2imb0"]
+[ext_resource type="Script" uid="uid://bnj2k70r3kfu6" path="res://scripts/node_types/colliders/rays/ray_unit.gd" id="3_o7s5o"]
+[ext_resource type="Script" uid="uid://cnnotig7v01" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="4_j8iaq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oy1df"]
 size = Vector2(12, 20)
@@ -15,7 +15,7 @@ script = ExtResource("1_07wmg")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_0rscj")
 animation = &"walk"
-frame_progress = 0.453512
+frame_progress = 0.950912
 
 [node name="Hitbox2D" type="Area2D" parent="."]
 collision_layer = 16

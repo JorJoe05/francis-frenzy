@@ -141,25 +141,28 @@ func collide() -> bool:
 	if _has_collided == false:
 		update_collision()
 	
-	var out = false
-	var limit: int = 4
+	var _owner_velocity_local = _collision.vector_to_local(owner.velocity)
+	var _collider_velocity_local = _collision.vector_to_local(_collision.get_collider_velocity())
 	
-	owner.velocity = _collision.vector_to_local(owner.velocity)
-	if round(owner.velocity.x) < 0:
-		pass
-	else:
-		while _collision.is_point_colliding() and limit > 0:
-			owner.position += _collision.get_snap_delta()
-			owner.velocity.x = min(owner.velocity.x, 0)
-			out = true
-			limit -= 1
-			update_collision()
+	if not _collision.is_point_colliding() or round(_owner_velocity_local.x) < round(_collider_velocity_local).x:
+		_is_colliding = false
+		return false
 	
-	owner.velocity = _collision.vector_to_global(owner.velocity)
-	owner.normal = _collision.get_normal()
+	var post_update = func():
+		update_collision()
+		
+		owner.position += _collision.get_snap_delta()
+		_owner_velocity_local.x = min(_owner_velocity_local.x, _collider_velocity_local.x)
+		
+		owner.velocity = _collision.vector_to_global(_owner_velocity_local)
+		owner.normal = _collision.get_normal()
+		
+		_collider_velocity_local = _collision.get_collider_velocity()
+		owner.position += _collider_velocity_local / ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
+	post_update.call_deferred()
 	
-	_is_colliding = out
-	return out
+	_is_colliding = true
+	return true
 
 func snap() -> bool:
 	assert(owner is CharacterBody2D)
@@ -167,22 +170,25 @@ func snap() -> bool:
 	if _has_collided == false:
 		update_collision()
 	
-	var out = false
-	var limit: int = 4
+	var _owner_velocity_local = _collision.vector_to_local(owner.velocity)
+	var _collider_velocity_local = _collision.vector_to_local(_collision.get_collider_velocity())
 	
-	owner.velocity = _collision.vector_to_local(owner.velocity)
-	if round(owner.velocity.x) < 0:
-		pass
-	else:
-		while _collision.is_ray_colliding() and limit > 0:
-			owner.position += _collision.get_snap_delta()
-			owner.velocity.x = min(owner.velocity.x, 0)
-			out = true
-			limit -= 1
-			update_collision()
+	if not _collision.is_ray_colliding():
+		_is_colliding = false
+		return false
 	
-	owner.velocity = _collision.vector_to_global(owner.velocity)
-	owner.normal = _collision.get_normal()
+	var post_update = func():
+		update_collision()
+		
+		owner.position += _collision.get_snap_delta()
+		_owner_velocity_local.x = min(_owner_velocity_local.x, _collider_velocity_local.x)
+		
+		owner.velocity = _collision.vector_to_global(_owner_velocity_local)
+		owner.normal = _collision.get_normal()
+		
+		_collider_velocity_local = _collision.get_collider_velocity()
+		owner.position += _collider_velocity_local / ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
+	post_update.call_deferred()
 	
-	_is_snapping = out
-	return out
+	_is_colliding = true
+	return true

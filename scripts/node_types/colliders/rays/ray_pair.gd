@@ -44,20 +44,16 @@ var _is_colliding: bool = false:
 		if _is_colliding != value:
 			if value == true:
 				collision_enter.emit()
-				print("C+")
 			else:
 				collision_exit.emit()
-				print("C-")
 		_is_colliding = value
 var _is_snapping: bool = false:
 	set(value):
 		if _is_snapping != value:
 			if value == true:
 				snap_enter.emit()
-				print("S+")
 			else:
 				snap_exit.emit()
-				print("S-")
 		_is_snapping = value
 
 var ledge_ray_left: RayUnit
@@ -132,7 +128,8 @@ func _get_max_detector() -> RayUnit:
 func update_collision() -> RayCollision:
 	var colliders = [ledge_ray_left, ledge_ray_right, slope_ray_left, slope_ray_right]
 	for collider in colliders:
-		collider.update_collision()
+		pass
+		#collider.update_collision()
 	_has_collided = true
 	return get_collision()
 

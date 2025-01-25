@@ -15,6 +15,6 @@ func fade_scene_to_file(path : String, startpos : StringName = &"Default") -> vo
 	get_tree().root.add_child(SceneTransition.new(scene, startpos))
 
 func quit_to_title() -> void:
-	fade_scene_to_file("res://Scenes/Menus/Dev Menu/dev_menu.tscn")
+	fade_scene_to_file("res://scenes/menus/dev_menu/dev_menu.tscn")
 
 #endregion

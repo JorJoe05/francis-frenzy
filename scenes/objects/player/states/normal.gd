@@ -27,7 +27,6 @@ func physics_update(_delta: float) -> void:
 			if owner.velocity.x > 0:
 				owner.velocity.x += -_speed_dec
 				if owner.ground_on:
-					owner.face = -1
 					owner.skid = true
 			else:
 				if owner.velocity.x >= -_speed_run:
@@ -42,7 +41,6 @@ func physics_update(_delta: float) -> void:
 			if owner.velocity.x < 0:
 				owner.velocity.x += _speed_dec
 				if owner.ground_on:
-					owner.face = 1
 					owner.skid = true
 			else:
 				if owner.velocity.x <= _speed_run:
@@ -56,6 +54,7 @@ func physics_update(_delta: float) -> void:
 	
 	if Input.is_action_just_pressed("jump"):
 		owner.velocity.y = owner.physics.speed_jump_get()
+		owner.velocity.x += owner.ray_collider_bottom.get_collision().get_collider_velocity().x
 		owner.ground_on = false
 	if Input.is_action_just_released("jump"):
 		owner.velocity.y = max(owner.velocity.y, owner.physics.speed_jump_release)

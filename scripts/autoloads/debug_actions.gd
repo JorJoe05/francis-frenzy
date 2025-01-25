@@ -1,5 +1,9 @@
 extends Node
 
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("pause"):
+		SceneManager.quit_to_title()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not OS.is_debug_build():
 		return
@@ -26,11 +30,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_F10:
 				pass
 			KEY_F11:
-				var thal = func(): Globals.current_character = Enums.CurrentCharacter.THAL
-				var boki = func(): Globals.current_character = Enums.CurrentCharacter.BOKI
-				DialogManager.create_dialog("Change Character", ["Thal", "Boki", "Cancel"], [thal, boki, Callable()], "Thal")
-				get_tree().root.set_input_as_handled()
+				pass
 			KEY_F12:
-				var title = func(): SceneManager.quit_to_title()
-				DialogManager.create_confirmation_dialog("Quit to dev menu?", true, title, Callable())
+				SceneManager.quit_to_title()
 				get_tree().root.set_input_as_handled()

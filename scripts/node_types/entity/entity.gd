@@ -31,7 +31,13 @@ signal ceiling_hit
 #endregion
 
 var local_velocity: Vector2
+var local_velocity_rotation: float
+
 var previous_position: Vector2
+var position_delta: Vector2
+
+var previous_global_position: Vector2
+var global_position_delta: Vector2
 
 var normal: Vector2 = Vector2.UP
 var ground_on: bool = true:
@@ -55,7 +61,10 @@ func _notification(what: int) -> void:
 		NOTIFICATION_READY:
 			pass
 		NOTIFICATION_PHYSICS_PROCESS:
+			position_delta = position - previous_position
 			previous_position = position
+			global_position_delta = global_position - previous_global_position
+			previous_global_position = global_position
 		NOTIFICATION_PROCESS:
 			_animate()
 

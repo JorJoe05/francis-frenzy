@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Francis Frenzy"
 run/main_scene="res://scenes/menus/dev_menu/dev_menu.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -22,6 +22,7 @@ PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_came
 Shaker="*res://addons/shaker/src/Shaker.gd"
 Game="*res://scripts/autoloads/game.gd"
 SceneManager="*res://bundles/scene_manager/scripts/autoloads/scene_manager.gd"
+DebugActions="*res://scripts/autoloads/debug_actions.gd"
 
 [display]
 
@@ -29,7 +30,7 @@ window/size/viewport_width=424
 window/size/viewport_height=240
 window/size/window_width_override=1272
 window/size/window_height_override=720
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
 
 [editor_plugins]
 

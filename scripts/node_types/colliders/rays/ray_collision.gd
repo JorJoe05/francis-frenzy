@@ -66,7 +66,21 @@ func get_properties() -> PackedStringArray:
 
 func get_collider() -> Node2D:
 	var intersection = _ray_intersection
-	return _ray_intersection["collider"]
+	if not intersection.is_empty():
+		return _ray_intersection["collider"]
+	return null
+
+func get_collider_property(property: StringName) -> Variant:
+	var collider = get_collider()
+	if collider:
+		return collider.get(property)
+	return null
+
+func get_collider_velocity() -> Vector2:
+	var velocity = get_collider_property(&"velocity")
+	if velocity:
+		return velocity
+	return Vector2.ZERO
 
 func vector_to_local(vector: Vector2) -> Vector2:
 	return vector.rotated(-rotation)

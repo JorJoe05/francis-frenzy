@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://v3obkh7ur42n"]
 
 [ext_resource type="SpriteFrames" uid="uid://chdu2oracqrm8" path="res://sprites/collectibles/spr_yorb.tres" id="1_gqstw"]
-[ext_resource type="Script" path="res://scenes/objects/collectibles/yorb.gd" id="1_rhxuj"]
-[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="2_637ws"]
+[ext_resource type="Script" uid="uid://d4eubsdiw7m4k" path="res://scenes/objects/collectibles/yorb.gd" id="1_rhxuj"]
+[ext_resource type="Script" uid="uid://om0n3vs52m54" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="2_637ws"]
 [ext_resource type="AudioStream" uid="uid://cjhp5utrmxu7q" path="res://sounds/sfx/sfx_yorb.wav" id="3_moeqi"]
-[ext_resource type="Script" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="3_q73t1"]
+[ext_resource type="Script" uid="uid://cnnotig7v01" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="3_q73t1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xr1ca"]
 radius = 8.0

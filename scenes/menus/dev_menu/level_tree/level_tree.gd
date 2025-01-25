@@ -1,6 +1,6 @@
 extends Control
 
-var levels_path: String = "res://scenes"
+var levels_path: String = "res://scenes/levels"
 var root: TreeItem
 var tree_items: Array
 var files: Array
@@ -21,7 +21,7 @@ func _setup_items(path: String = levels_path, item: TreeItem = root) -> void:
 		tree_items.append(tree_item)
 		_setup_items(path + "/" + subdir, tree_item)
 	for file in DirAccess.get_files_at(path):
-		if file.ends_with(".tscn"):# and not file.ends_with("level_parent.tscn"):
+		if file.ends_with(".tscn") and not file.ends_with("lvl_parent.tscn"):
 			var tree_item = %LevelTree.create_item(item)
 			tree_item.set_text(0, file)
 			tree_item.set_custom_color(0, Color.YELLOW)

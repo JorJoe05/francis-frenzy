@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c23tm2pl04s3v"]
 
-[ext_resource type="Script" path="res://scenes/levels/parent/lvl_parent.gd" id="1_l2bti"]
+[ext_resource type="Script" uid="uid://dlq0v483dyesw" path="res://scenes/levels/parent/lvl_parent.gd" id="1_l2bti"]
 [ext_resource type="PackedScene" uid="uid://cnage6mso7pcu" path="res://scenes/objects/system/global_camera.tscn" id="1_opy71"]
 
 [node name="Level" type="Node2D"]

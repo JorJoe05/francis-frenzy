@@ -81,7 +81,7 @@ func _on_player_hitbox_entered(hitbox: Hitbox2D) -> void:
 	_animate()
 	$AudioStreamPlayer2D.play()
 	hitbox.owner.state_machine.transition_to("Launch", {
-		"launch_position": position + Vector2(24, 0).rotated(rotation),
-		"launch_velocity": Vector2(launch_speed, 0).rotated(rotation), 
+		"launch_position": global_position + Vector2(24, 0).rotated(global_rotation),
+		"launch_velocity": Vector2(launch_speed, 0).rotated(global_rotation), 
 		"launch_duration": launch_duration
 	})

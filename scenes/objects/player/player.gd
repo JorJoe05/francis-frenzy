@@ -1,6 +1,8 @@
 extends Entity
 class_name Player
 
+@export var curve_test: Curve
+
 @export_group("Nodes")
 @export var state_machine: StateMachine
 @export var camera: PhantomCamera2D
@@ -18,12 +20,13 @@ func _ready() -> void:
 	up_direction = Vector2.from_angle(rotation - (PI/2))
 
 func _physics_process(delta: float) -> void:
-	if sign(round(velocity.x)) != 0:
-		$CameraTarget.position.x = move_toward($CameraTarget.position.x, (abs(0.0) + 64.0) * sign(round(velocity.x)), 2)
+	$CameraTarget.position.x = move_toward($CameraTarget.position.x, (abs(0.0) + 64.0) * face, 4)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		get_tree().set_auto_accept_quit(false)
+		$Troll.play()
+		#await get_tree().create_timer(1.9).timeout
 		var tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 		var tween2 = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 		tween.tween_property(sprite_root, "scale", Vector2.ONE * 40.0, 0.2)
@@ -46,55 +49,41 @@ func apply_friction() -> void:
 
 #region Collision
 
-func _collide(detector: RayCollider) -> bool:
-	return detector.collide()
-
-func _snap(detector: RayCollider) -> bool:
-	var collision = detector.get_collision()
-	if collision.is_ray_colliding():
-		position += collision.get_snap_delta()
-		velocity = collision.vector_to_local(velocity)
-		velocity.x = min(velocity.x, 0)
-		velocity = collision.vector_to_global(velocity)
-		normal = collision.get_normal()
-		return true
-	return false
-
 func collide_floor() -> bool:
-	ground_on = _collide(ray_collider_bottom)
+	ground_on = ray_collider_bottom.collide()
 	if ground_on:
 		pass#velocity.y = min(velocity.y, 0)
 		#print(velocity)
 	return ground_on
 
 func collide_ceiling() -> bool:
-	var _collide = _collide(ray_collider_top)
+	var _collide = ray_collider_top.collide()
 	if _collide:
 		pass
 		#velocity.y = max(velocity.y, 0)
 	return _collide
 
 func collide_left_wall() -> bool:
-	var _collide = _collide(ray_collider_left)
+	var _collide = ray_collider_left.collide()
 	if _collide:
 		pass
 		#velocity.x = max(velocity.x, 0)
 	return _collide
 
 func collide_right_wall() -> bool:
-	var _collide = _collide(ray_collider_right)
+	var _collide = ray_collider_right.collide()
 	if _collide:
 		pass
 		#velocity.x = min(velocity.x, 0)
 	return _collide
 
 func collide_walls() -> bool:
-	return _collide(ray_collider_left) or _collide(ray_collider_right)
+	return ray_collider_left.collide() or ray_collider_right.collide()
 
 func snap_floor() -> bool:
 	if ground_on == false:
 		return false
-	ground_on = _snap(ray_collider_bottom)
+	ground_on = ray_collider_bottom.snap()
 	if ground_on:
 		pass
 		#velocity.y = min(velocity.y, 0)
