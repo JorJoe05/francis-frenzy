@@ -153,6 +153,13 @@ func detect_ext() -> bool:
 	
 	return _is_snapping
 
+func bounce() -> bool:
+	if _has_collided == false:
+		update_collision()
+		_is_colliding = _get_max_detector().bounce()
+	
+	return _is_colliding
+
 func collide() -> bool:
 	if _has_collided == false:
 		update_collision()

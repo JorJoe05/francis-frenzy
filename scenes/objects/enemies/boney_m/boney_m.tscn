@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://cf66i81cmcr68"]
+
+[ext_resource type="PackedScene" uid="uid://cq218rdgk2yal" path="res://scenes/objects/enemies/parent/enemy_parent.tscn" id="1_swl62"]
+[ext_resource type="Texture2D" uid="uid://dq8aurxy0ncn2" path="res://sprites/enemies/boney_m/spr_enemy_boney_m.png" id="2_ljilr"]
+
+[sub_resource type="Animation" id="Animation_6mo8n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 32, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_6p217"]
+resource_name = "hurt"
+length = 0.001
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 64, 32, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_mr75j"]
+resource_name = "turn"
+length = 0.125013
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 32, 32, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_ljilr"]
+resource_name = "walk"
+length = 1.00001
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 32, 32), Rect2(32, 0, 32, 32), Rect2(64, 0, 32, 32), Rect2(96, 0, 32, 32), Rect2(128, 0, 32, 32), Rect2(160, 0, 32, 32), Rect2(192, 0, 32, 32), Rect2(224, 0, 32, 32)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6mo8n"]
+_data = {
+&"RESET": SubResource("Animation_6mo8n"),
+&"hurt": SubResource("Animation_6p217"),
+&"turn": SubResource("Animation_mr75j"),
+&"walk": SubResource("Animation_ljilr")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ljilr"]
+resource_local_to_scene = true
+size = Vector2(12, 20)
+
+[node name="BoneyM" instance=ExtResource("1_swl62")]
+
+[node name="Sprite2D" parent="SpriteRoot" index="0"]
+texture = ExtResource("2_ljilr")
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="AnimationPlayer" parent="." index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_6mo8n")
+}
+
+[node name="CollisionShape2D" parent="Hitbox2D" index="0"]
+shape = SubResource("RectangleShape2D_ljilr")

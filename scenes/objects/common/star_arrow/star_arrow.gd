@@ -85,3 +85,5 @@ func _on_player_hitbox_entered(hitbox: Hitbox2D) -> void:
 		"launch_velocity": Vector2(launch_speed, 0).rotated(global_rotation), 
 		"launch_duration": launch_duration
 	})
+	if abs(cos(rotation)) >= 0.1:
+		hitbox.owner.face = sign(cos(rotation))

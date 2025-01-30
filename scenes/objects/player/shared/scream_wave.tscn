@@ -1,0 +1,76 @@
+[gd_scene load_steps=7 format=3 uid="uid://b1kt07g7kgf5b"]
+
+[ext_resource type="Texture2D" uid="uid://ch65h4bk1hdf" path="res://sprites/player/shared/spr_scream_wave.png" id="1_fudt4"]
+[ext_resource type="Script" uid="uid://dap7augssrb3p" path="res://scenes/objects/player/shared/scream_wave.gd" id="1_k5vi7"]
+[ext_resource type="Script" uid="uid://om0n3vs52m54" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="3_cnfn5"]
+[ext_resource type="Script" uid="uid://bnj2k70r3kfu6" path="res://scripts/node_types/colliders/rays/ray_unit.gd" id="4_cnfn5"]
+[ext_resource type="AudioStream" uid="uid://cepacddhrael4" path="res://sounds/sfx/sfx_stalker_scream.ogg" id="5_1aiwl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1aiwl"]
+radius = 8.0
+
+[node name="ScreamWave" type="CharacterBody2D" node_paths=PackedStringArray("collider_root", "ray_collider_top", "ray_collider_bottom", "ray_collider_left", "ray_collider_right", "hitbox", "sprite")]
+collision_layer = 0
+collision_mask = 0
+floor_stop_on_slope = false
+floor_block_on_wall = false
+platform_on_leave = 2
+script = ExtResource("1_k5vi7")
+collider_root = NodePath("Colliders")
+ray_collider_top = NodePath("Colliders/RayPairTop")
+ray_collider_bottom = NodePath("Colliders/RayPairBottom")
+ray_collider_left = NodePath("Colliders/RayPairLeft")
+ray_collider_right = NodePath("Colliders/RayPairRight")
+hitbox = NodePath("Hitbox2D")
+sprite = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fudt4")
+
+[node name="Hitbox2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("3_cnfn5")
+types = Array[StringName]([&"scream"])
+metadata/_custom_type_script = ExtResource("3_cnfn5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox2D"]
+shape = SubResource("CircleShape2D_1aiwl")
+
+[node name="Colliders" type="Node2D" parent="."]
+
+[node name="RayPairRight" type="Node2D" parent="Colliders"]
+position = Vector2(8, 0)
+script = ExtResource("4_cnfn5")
+metadata/_custom_type_script = ExtResource("4_cnfn5")
+
+[node name="RayPairBottom" type="Node2D" parent="Colliders"]
+position = Vector2(0, 8)
+rotation = 1.5708
+script = ExtResource("4_cnfn5")
+metadata/_custom_type_script = ExtResource("4_cnfn5")
+
+[node name="RayPairLeft" type="Node2D" parent="Colliders"]
+position = Vector2(-8, 0)
+rotation = 3.14159
+script = ExtResource("4_cnfn5")
+metadata/_custom_type_script = ExtResource("4_cnfn5")
+
+[node name="RayPairTop" type="Node2D" parent="Colliders"]
+position = Vector2(0, -8)
+rotation = 4.71239
+script = ExtResource("4_cnfn5")
+metadata/_custom_type_script = ExtResource("4_cnfn5")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(4.76837e-07, 5.96046e-07)
+scale = Vector2(1.2, 1.2)
+
+[node name="Scream" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_1aiwl")
+volume_db = -16.0
+autoplay = true
+max_polyphony = 90
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited" flags=6]

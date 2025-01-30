@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LevelGroup" load_steps=3 format=3 uid="uid://dg3kl77cfgcx5"]
+
+[ext_resource type="PackedScene" uid="uid://byxu3c4mvwb20" path="res://scenes/levels/fruit/lvl_fruit_01.tscn" id="1_oat7h"]
+[ext_resource type="Script" uid="uid://c86xdx7hp6hb3" path="res://scripts/resource_types/level_group/level_group.gd" id="2_8v0tb"]
+
+[resource]
+script = ExtResource("2_8v0tb")
+levels = Array[PackedScene]([ExtResource("1_oat7h")])
+metadata/_custom_type_script = ExtResource("2_8v0tb")

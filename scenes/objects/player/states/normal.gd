@@ -15,8 +15,7 @@ func physics_update(_delta: float) -> void:
 	
 	#owner.ground_on = owner.is_on_floor()
 	
-	var input = Input.get_vector("left", "right", "down", "up")
-	input = owner.vector_to_global(input)
+	var input = owner.get_rotated_input_vector()
 	
 	var _speed_dec = owner.physics.speed_dec if owner.ground_on else owner.physics.speed_dec_air
 	var _speed_acc = owner.physics.speed_acc if owner.ground_on else owner.physics.speed_acc_air
@@ -24,13 +23,13 @@ func physics_update(_delta: float) -> void:
 	
 	match int(sign(round(input.x))):
 		-1:
-			if owner.velocity.x > 0:
-				owner.velocity.x += -_speed_dec
+			if owner.local_velocity.x > 0:
+				owner.local_velocity.x += -_speed_dec
 				if owner.ground_on:
 					owner.skid = true
 			else:
-				if owner.velocity.x >= -_speed_run:
-					owner.velocity.x = max(owner.velocity.x - _speed_acc, -_speed_run)
+				if owner.local_velocity.x >= -_speed_run:
+					owner.local_velocity.x = max(owner.local_velocity.x - _speed_acc, -_speed_run)
 				else:
 					owner.apply_friction()
 				owner.face = -1
@@ -38,39 +37,33 @@ func physics_update(_delta: float) -> void:
 		0:
 			owner.apply_friction()
 		1:
-			if owner.velocity.x < 0:
-				owner.velocity.x += _speed_dec
+			if owner.local_velocity.x < 0:
+				owner.local_velocity.x += _speed_dec
 				if owner.ground_on:
 					owner.skid = true
 			else:
-				if owner.velocity.x <= _speed_run:
-					owner.velocity.x = min(owner.velocity.x + _speed_acc, _speed_run)
+				if owner.local_velocity.x <= _speed_run:
+					owner.local_velocity.x = min(owner.local_velocity.x + _speed_acc, _speed_run)
 				else:
 					owner.apply_friction()
 				owner.face = 1
 				owner.skid = false
 	
-	owner.velocity.y = min(owner.velocity.y + owner.physics.speed_grv, owner.physics.speed_fall)
-	
-	if Input.is_action_just_pressed("jump"):
-		owner.velocity.y = owner.physics.speed_jump_get()
-		owner.velocity.x += owner.ray_collider_bottom.get_collision().get_collider_velocity().x
+	if owner.can_jump():
+		%Jump.play()
 		owner.ground_on = false
-	if Input.is_action_just_released("jump"):
-		owner.velocity.y = max(owner.velocity.y, owner.physics.speed_jump_release)
+		owner.velocity = owner.physics.speed_jump_get() * owner.up_direction
+		#owner.up_relative_velocity.x += owner.ray_collider_bottom.get_collision().get_collider_velocity().x
+		var test = func(): print(owner.velocity.y)
+		test.call()
+		test.call_deferred()
 	
-	owner.gravity_adjust_start()
+	if Input.is_action_just_pressed("scream"):
+		owner.scream()
 	
-	owner.position += owner.velocity / 60.0
-	
-	if owner.ground_on:
-		owner.snap_floor()
-	else:
-		owner.collide_floor()
-	owner.collide_ceiling()
-	owner.collide_walls()
-	
-	owner.gravity_adjust_end()
+	owner.apply_gravity()
+	owner.move()
+	owner.collide()
 
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.

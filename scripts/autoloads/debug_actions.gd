@@ -2,7 +2,8 @@ extends Node
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
-		SceneManager.quit_to_title()
+		SceneManager.change_to_main_scene()
+		pass
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not OS.is_debug_build():
@@ -32,5 +33,5 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_F11:
 				pass
 			KEY_F12:
-				SceneManager.quit_to_title()
+				SceneManager.change_to_main_scene()
 				get_tree().root.set_input_as_handled()

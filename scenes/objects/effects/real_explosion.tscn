@@ -1,7 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://bdkqv4eh0rk0x"]
+[gd_scene load_steps=27 format=3 uid="uid://bdkqv4eh0rk0x"]
 
 [ext_resource type="Texture2D" uid="uid://86wr7i23k4ej" path="res://sprites/effects/spr_explosion_real.png" id="1_htqsh"]
 [ext_resource type="AudioStream" uid="uid://c5yayswpo0a0p" path="res://sounds/sfx/sfx_explosion.wav" id="2_4e5i1"]
+[ext_resource type="Script" uid="uid://om0n3vs52m54" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="3_y5l20"]
+[ext_resource type="Script" uid="uid://swn3akovnjxv" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_noise_emitter_2d.gd" id="4_3y1uf"]
+[ext_resource type="Script" uid="uid://pflsbwgfxv1c" path="res://addons/phantom_camera/scripts/resources/phantom_camera_noise_2d.gd" id="5_qt0c1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_618y0"]
 atlas = ExtResource("1_htqsh")
@@ -134,18 +137,59 @@ animations = [{
 script/source = "extends AnimatedSprite2D
 
 func _ready() -> void:
-	animation_finished.connect(queue_free, CONNECT_ONE_SHOT)
+	$PhantomCameraNoiseEmitter2D.emit()
+
+func _process(delta: float) -> void:
+	if frame > 11:
+		$Hitbox2D/CollisionShape2D.disabled = true
+	
+	if not is_playing():
+		queue_free()
 "
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mvhup"]
+size = Vector2(56, 72)
+
+[sub_resource type="Resource" id="Resource_cay2d"]
+script = ExtResource("5_qt0c1")
+amplitude = 16.0
+frequency = 10.0
+randomize_noise_seed = 1
+noise_seed = 224
+positional_noise = true
+rotational_noise = false
+positional_multiplier_x = 1.0
+positional_multiplier_y = 1.0
+rotational_multiplier = 1.0
+metadata/_custom_type_script = ExtResource("5_qt0c1")
 
 [node name="RealExplosion" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_u7biy")
 animation = &"explode"
-frame = 16
-frame_progress = 1.0
+frame = 3
+frame_progress = 0.43582
 script = SubResource("GDScript_d8kfq")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_4e5i1")
 autoplay = true
+
+[node name="Hitbox2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("3_y5l20")
+types = Array[StringName]([&"explosion"])
+metadata/_custom_type_script = ExtResource("3_y5l20")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox2D"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_mvhup")
+
+[node name="PhantomCameraNoiseEmitter2D" type="Node2D" parent="."]
+script = ExtResource("4_3y1uf")
+noise = SubResource("Resource_cay2d")
+duration = 0.1
+decay_time = 0.5
+metadata/_custom_type_script = ExtResource("4_3y1uf")
 
 [connection signal="ready" from="." to="." method="play" flags=6 binds= ["explode"]]

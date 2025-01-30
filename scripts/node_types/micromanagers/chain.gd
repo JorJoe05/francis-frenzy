@@ -22,11 +22,12 @@ enum MoveType {
 	get:
 		return 1.0 / period
 @export_range(0.0, 360.0) var arc: float = 180.0
+@export_range(0.0, 360.0) var starting_offset: float = 0.0
 
-var _rotation: float = (PI/2.0):
+var _rotation: float = wrapf((PI/2.0) + deg_to_rad(starting_offset), 0, (PI*2.0)):
 	set(value):
 		_rotation = wrapf(value, 0, PI*2.0)
-var _previous_rotation: float = (PI/2.0)
+var _previous_rotation: float =  wrapf((PI/2.0) + deg_to_rad(starting_offset), 0, (PI*2.0))
 var _swing_rotation: float:
 	get:
 		return cos(_rotation) * deg_to_rad(arc/2.0) + (PI/2.0)
@@ -38,12 +39,12 @@ var _segment_size: float:
 	get:
 		return min(chain_texture.get_size().x, chain_texture.get_size().y)
 
-var _debug_rotation: float = (PI/2.0):
+var _debug_rotation: float =  wrapf((PI/2.0) + deg_to_rad(starting_offset), 0, (PI*2.0)):
 	set(value):
 		_debug_rotation = wrapf(value, 0, PI*2.0)
 var _debug_swing_rotation: float:
 	get:
-		return cos(_debug_rotation) * deg_to_rad(arc/2.0) + (PI/2.0)
+		return cos(_debug_rotation + deg_to_rad(starting_offset)) * deg_to_rad(arc/2.0) + (PI/2.0)
 
 func _process(delta: float) -> void:
 	if not period == 0 and Engine.is_editor_hint():
@@ -79,7 +80,7 @@ func _draw() -> void:
 	if Engine.is_editor_hint():
 		match movement_type:
 			MoveType.ROTATE:
-				draw_line(Vector2.ZERO, Vector2.RIGHT.rotated(_debug_rotation) * (segment_count - 1) * _segment_size, Color.BLUE)
+				draw_line(Vector2.ZERO, Vector2.RIGHT.rotated(_debug_rotation + deg_to_rad(starting_offset)) * (segment_count - 1) * _segment_size, Color.BLUE)
 				draw_circle(Vector2.ZERO, (segment_count - 1) * _segment_size, Color.RED, false)
 			MoveType.SWING:
 				draw_line(Vector2.ZERO, Vector2.RIGHT.rotated(_debug_swing_rotation) * (segment_count - 1) * _segment_size, Color.BLUE)

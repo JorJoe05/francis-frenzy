@@ -126,6 +126,7 @@ func _on_player_hitbox_entered(hitbox: Hitbox2D) -> void:
 	_animate()
 	$AudioStreamPlayer2D.play()
 	hitbox.owner.position = $RayCast2D.get_collision_point() - Vector2(16, 0).rotated(global_rotation)
-	hitbox.owner.set_gravity(Vector2.LEFT.rotated(global_rotation))
+	hitbox.owner.up_direction = Vector2.LEFT.rotated(global_rotation)
 	hitbox.owner.velocity = Vector2.ZERO
+	hitbox.owner.rotation = Vector2.UP.rotated(global_rotation).angle()
 	hitbox.owner.reset_physics_interpolation()

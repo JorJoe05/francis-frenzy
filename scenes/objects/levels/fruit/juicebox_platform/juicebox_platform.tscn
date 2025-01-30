@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://bd53wy764k6ll"]
+
+[ext_resource type="Script" uid="uid://d1bhp1m7c7y64" path="res://scripts/node_types/entity/entity.gd" id="1_cm24a"]
+[ext_resource type="Script" uid="uid://mr14g0ln00vo" path="res://scenes/objects/levels/fruit/juicebox_platform/juicebox_platform.gd" id="1_pff1n"]
+[ext_resource type="Texture2D" uid="uid://dgq2drlgv2jsm" path="res://sprites/levels/fruit/spr_juicebox_platform.png" id="2_pff1n"]
+[ext_resource type="Texture2D" uid="uid://bxlva57mtvok5" path="res://sprites/levels/fruit/spr_juicebox_platform_rocket.png" id="3_3sbqs"]
+[ext_resource type="Script" uid="uid://bnj2k70r3kfu6" path="res://scripts/node_types/colliders/rays/ray_unit.gd" id="5_3sbqs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3sbqs"]
+resource_local_to_scene = true
+size = Vector2(32, 8)
+
+[node name="JuiceboxPlatform" type="CharacterBody2D" node_paths=PackedStringArray("ray_collider_bottom")]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_pff1n")
+ray_collider_bottom = NodePath("FloorCollider")
+metadata/_custom_type_script = ExtResource("1_cm24a")
+
+[node name="Platform" type="NinePatchRect" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 16.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("2_pff1n")
+patch_margin_left = 4
+patch_margin_right = 4
+axis_stretch_horizontal = 1
+
+[node name="RocketL" type="TextureRect" parent="Platform"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -16.0
+grow_vertical = 0
+texture = ExtResource("3_3sbqs")
+stretch_mode = 2
+flip_h = true
+
+[node name="RocketR" type="TextureRect" parent="Platform"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = 16.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("3_3sbqs")
+stretch_mode = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -28)
+shape = SubResource("RectangleShape2D_3sbqs")
+
+[node name="FloorCollider" type="Node2D" parent="."]
+rotation = 1.5708
+script = ExtResource("5_3sbqs")
+one_way = true
+metadata/_custom_type_script = ExtResource("5_3sbqs")

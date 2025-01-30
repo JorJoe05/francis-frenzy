@@ -1,7 +1,7 @@
 class_name Hitbox2D
 extends Area2D
 
-@export var type: StringName
+@export var types: Array[StringName] = []
 
 signal hitbox_entered(hitbox: Hitbox2D)
 signal hitbox_exited(hitbox: Hitbox2D)
@@ -10,6 +10,7 @@ signal hitbox_shape_exited(hitbox_rid: RID, hitbox: Hitbox2D, hitbox_shape_index
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	types = types.duplicate()
 	area_entered.connect(_area_entered)
 	area_exited.connect(_area_exited)
 	area_shape_entered.connect(_area_shape_entered)

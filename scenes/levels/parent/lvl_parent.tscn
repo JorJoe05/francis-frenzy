@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://c23tm2pl04s3v"]
+[gd_scene load_steps=6 format=3 uid="uid://c23tm2pl04s3v"]
 
 [ext_resource type="Script" uid="uid://dlq0v483dyesw" path="res://scenes/levels/parent/lvl_parent.gd" id="1_l2bti"]
-[ext_resource type="PackedScene" uid="uid://cnage6mso7pcu" path="res://scenes/objects/system/global_camera.tscn" id="1_opy71"]
+[ext_resource type="PackedScene" uid="uid://cnage6mso7pcu" path="res://scenes/objects/system/camera/global_camera.tscn" id="1_opy71"]
+[ext_resource type="Script" uid="uid://b23qrigdc2n3f" path="res://scripts/node_types/utility/positioning/player_camera_follow.gd" id="2_3vlna"]
+[ext_resource type="TileSet" uid="uid://3cir01ps2fnn" path="res://resources/tilesets/tileset_collectibles.tres" id="2_owuo0"]
+[ext_resource type="Script" uid="uid://bccjad2ayhjja" path="res://scripts/node_types/utility/positioning/player_follow.gd" id="3_owuo0"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_l2bti")
@@ -18,6 +21,9 @@ metadata/_edit_lock_ = true
 [node name="Collectibles" type="Node2D" parent="Level Objects"]
 metadata/_edit_lock_ = true
 
+[node name="Yorbs" type="TileMapLayer" parent="Level Objects/Collectibles"]
+tile_set = ExtResource("2_owuo0")
+
 [node name="Platforms" type="Node2D" parent="Level Objects"]
 metadata/_edit_lock_ = true
 
@@ -30,7 +36,24 @@ metadata/_edit_lock_ = true
 [node name="Other" type="Node2D" parent="Level Objects"]
 metadata/_edit_lock_ = true
 
-[node name="Triggers" type="Node2D" parent="."]
+[node name="System Objects" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Cameras" type="Node2D" parent="System Objects"]
+metadata/_edit_lock_ = true
+
+[node name="Followers" type="Node2D" parent="System Objects"]
+metadata/_edit_lock_ = true
+
+[node name="PlayerFollow" type="CharacterBody2D" parent="System Objects/Followers"]
+script = ExtResource("3_owuo0")
+metadata/_custom_type_script = ExtResource("3_owuo0")
+
+[node name="PlayerCameraFollow" type="CharacterBody2D" parent="System Objects/Followers"]
+script = ExtResource("2_3vlna")
+metadata/_custom_type_script = ExtResource("2_3vlna")
+
+[node name="Triggers" type="Node2D" parent="System Objects"]
 metadata/_edit_lock_ = true
 
 [node name="Shared" type="Node2D" parent="."]

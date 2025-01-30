@@ -1,26 +1,47 @@
 extends Entity
 class_name Player
 
-@export var curve_test: Curve
-
 @export_group("Nodes")
 @export var state_machine: StateMachine
 @export var camera: PhantomCamera2D
+@export var camera_target: Node2D
+@export var scream_emitter: Node2D
 
 @export_group("Resources")
 @export var physics: PlayerPhysics
 
+@onready var _scream_wave = preload("res://scenes/objects/player/shared/scream_wave.tscn")
+
 var skid: bool = false
-var face: int = 1
+var coyote_time: float
+var jump_buffer: float
 
 var yorbs: int = 0
 
 func _ready() -> void:
 	Game.player = self
+	add_to_group(&"Player")
 	up_direction = Vector2.from_angle(rotation - (PI/2))
+	await get_tree().create_timer(1.0/60.0).timeout
+	camera.set_follow_damping(true)
+
+func _process(delta: float) -> void:
+	pass
 
 func _physics_process(delta: float) -> void:
-	$CameraTarget.position.x = move_toward($CameraTarget.position.x, (abs(0.0) + 64.0) * face, 4)
+	camera_target.position.x = move_toward(camera_target.position.x, (abs(0.0) + 64.0) * face, 4)
+	scream_emitter.position.x = 16 * face
+	
+	if ground_on:
+		coyote_time = physics.coyote_time
+	else:
+		coyote_time = max(coyote_time - delta, 0.0)
+	
+	jump_buffer = max(jump_buffer - delta, 0.0)
+	if not ground_on and Input.is_action_just_pressed("jump"):
+		jump_buffer = physics.jump_buffer
+	elif not Input.is_action_pressed("jump"):
+		jump_buffer = 0.0
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -36,73 +57,48 @@ func _notification(what: int) -> void:
 
 #region Physics
 
+func get_input_vector() -> Vector2:
+	return Input.get_vector("left", "right", "up", "down")
+
+func get_rotated_input_vector() -> Vector2:
+	return get_input_vector().rotated(-(up_direction.angle() + (PI/2)))
+
+func can_jump() -> bool:
+	var _can_jump = (coyote_time > 0.0 and Input.is_action_just_pressed("jump")) or (jump_buffer > 0.0 and ground_on)
+	if _can_jump:
+		coyote_time = 0.0
+		jump_buffer = 0.0
+	return _can_jump
+
 func apply_friction() -> void:
 	if ground_on:
-		var acc_half = func(): velocity.x -= (min(abs(velocity.x), physics.speed_frc) * sign(velocity.x))
+		var acc_half = func(): local_velocity.x -= (min(abs(local_velocity.x), physics.speed_frc) * sign(local_velocity.x))
 		acc_half.call()
-		if velocity.x == 0:
+		if local_velocity.x == 0:
 			skid = false
 	else:
 		velocity.x *= physics.speed_frc_air
 
 #endregion
 
-#region Collision
-
-func collide_floor() -> bool:
-	ground_on = ray_collider_bottom.collide()
-	if ground_on:
-		pass#velocity.y = min(velocity.y, 0)
-		#print(velocity)
-	return ground_on
-
-func collide_ceiling() -> bool:
-	var _collide = ray_collider_top.collide()
-	if _collide:
-		pass
-		#velocity.y = max(velocity.y, 0)
-	return _collide
-
-func collide_left_wall() -> bool:
-	var _collide = ray_collider_left.collide()
-	if _collide:
-		pass
-		#velocity.x = max(velocity.x, 0)
-	return _collide
-
-func collide_right_wall() -> bool:
-	var _collide = ray_collider_right.collide()
-	if _collide:
-		pass
-		#velocity.x = min(velocity.x, 0)
-	return _collide
-
-func collide_walls() -> bool:
-	return ray_collider_left.collide() or ray_collider_right.collide()
-
-func snap_floor() -> bool:
-	if ground_on == false:
-		return false
-	ground_on = ray_collider_bottom.snap()
-	if ground_on:
-		pass
-		#velocity.y = min(velocity.y, 0)
-	return ground_on
-
-func gravity_adjust_start() -> void:
-	velocity = vector_to_global(velocity)
-	normal = vector_to_global(normal)
-
-func gravity_adjust_end() -> void:
-	velocity = vector_to_local(velocity)
-	normal = vector_to_local(normal)
-
-func set_gravity(new_up_direction) -> void:
-	var prev_up_direction = up_direction
-	up_direction = new_up_direction
-	var rotate_velocity = func():
-		velocity = velocity.rotated(angle_difference(new_up_direction.angle(), prev_up_direction.angle()))
-		rotation = new_up_direction.angle() + PI/2
-	rotate_velocity.call_deferred()
-
-#endregion
+func scream() -> void:
+	var _scream_0 = _scream_wave.instantiate()
+	_scream_0.sprite.rotation = Vector2(face, 0.2).angle()
+	_scream_0.global_position = scream_emitter.global_position
+	get_tree().current_scene.add_child(_scream_0)
+	var _scream_1 = _scream_wave.instantiate()
+	_scream_1.sprite.rotation = Vector2(face, 0.1).angle()
+	_scream_1.global_position = scream_emitter.global_position
+	get_tree().current_scene.add_child(_scream_1)
+	var _scream_2 = _scream_wave.instantiate()
+	_scream_2.sprite.rotation = Vector2(face, 0.0).angle()
+	_scream_2.global_position = scream_emitter.global_position
+	get_tree().current_scene.add_child(_scream_2)
+	var _scream_3 = _scream_wave.instantiate()
+	_scream_3.sprite.rotation = Vector2(face, -0.1).angle()
+	_scream_3.global_position = scream_emitter.global_position
+	get_tree().current_scene.add_child(_scream_3)
+	var _scream_4 = _scream_wave.instantiate()
+	_scream_4.sprite.rotation = Vector2(face, -0.2).angle()
+	_scream_4.global_position = scream_emitter.global_position
+	get_tree().current_scene.add_child(_scream_4)

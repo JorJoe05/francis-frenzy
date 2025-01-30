@@ -29,5 +29,4 @@ func enter(_msg := {}) -> void:
 # Virtual function. Called by the state machine before changing the active state. Use this function
 # to clean up the state.
 func exit() -> void:
-	var to_local = func(): owner.velocity = owner.vector_to_local(owner.velocity)
-	to_local.call_deferred()
+	pass

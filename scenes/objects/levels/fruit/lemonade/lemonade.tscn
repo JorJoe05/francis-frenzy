@@ -1,0 +1,90 @@
+[gd_scene load_steps=13 format=3 uid="uid://b4qcn8gnumsr0"]
+
+[ext_resource type="Shader" uid="uid://btujnc4ayu8au" path="res://shaders/shader_colorize_mask.gdshader" id="1_e5rdx"]
+[ext_resource type="Texture2D" uid="uid://bktaswa4m6m2f" path="res://sprites/levels/fruit/spr_lemonade.png" id="1_xrqo0"]
+[ext_resource type="Script" uid="uid://yvxa280j12df" path="res://scenes/objects/levels/fruit/lemonade/lemonade.gd" id="2_2u44f"]
+[ext_resource type="Script" uid="uid://d1bhp1m7c7y64" path="res://scripts/node_types/entity/entity.gd" id="3_2pf07"]
+[ext_resource type="Script" uid="uid://t7efj4orwdoy" path="res://scripts/node_types/utility/triggers/line_cross.gd" id="4_2pf07"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e5rdx"]
+shader = ExtResource("1_e5rdx")
+shader_parameter/mask_color = Color(1, 0, 1, 1)
+shader_parameter/mod_color_bright = Color(1, 0.937255, 0, 1)
+shader_parameter/mod_color_dim = Color(1, 0.447059, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e5rdx"]
+atlas = ExtResource("1_xrqo0")
+region = Rect2(0, 0, 32, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvyuk"]
+atlas = ExtResource("1_xrqo0")
+region = Rect2(32, 0, 32, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2u44f"]
+atlas = ExtResource("1_xrqo0")
+region = Rect2(64, 0, 32, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pf07"]
+atlas = ExtResource("1_xrqo0")
+region = Rect2(96, 0, 32, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fy6ah"]
+atlas = ExtResource("1_xrqo0")
+region = Rect2(128, 0, 32, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ldydy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e5rdx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvyuk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2u44f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2pf07")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fy6ah")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Lemonade" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_e5rdx")
+script = ExtResource("2_2u44f")
+metadata/_custom_type_script = ExtResource("3_2pf07")
+metadata/_edit_group_ = true
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+z_index = 2
+use_parent_material = true
+scroll_scale = Vector2(1.2, 1)
+repeat_size = Vector2(32, 0)
+repeat_times = 27
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Parallax2D"]
+use_parent_material = true
+position = Vector2(0, -24)
+sprite_frames = SubResource("SpriteFrames_ldydy")
+frame_progress = 0.117932
+centered = false
+
+[node name="ColorRect" type="ColorRect" parent="Parallax2D"]
+use_parent_material = true
+offset_right = 32.0
+offset_bottom = 240.0
+color = Color(1, 0, 1, 1)
+
+[node name="LemonadeTrigger" type="Marker2D" parent="."]
+rotation = 1.5708
+script = ExtResource("4_2pf07")
+metadata/_custom_type_script = ExtResource("4_2pf07")
+
+[connection signal="ready" from="Parallax2D/AnimatedSprite2D" to="Parallax2D/AnimatedSprite2D" method="play" flags=6 binds= [&"default"]]
+[connection signal="triggered" from="LemonadeTrigger" to="." method="_on_line_cross_trigger_triggered"]

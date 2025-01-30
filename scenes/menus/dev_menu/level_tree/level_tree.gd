@@ -31,6 +31,6 @@ func _setup_items(path: String = levels_path, item: TreeItem = root) -> void:
 func _item_activated() -> void:
 	var selected = %LevelTree.get_selected()
 	if selected.has_meta(&"LevelSelectPath"):
-		SceneManager.fade_scene_to_file(selected.get_meta(&"LevelSelectPath"))
+		SceneManager.change_scene_to_file(selected.get_meta(&"LevelSelectPath"))
 		%LevelTree.release_focus()
 	print("Activated!")

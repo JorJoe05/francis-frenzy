@@ -13,4 +13,4 @@ func collect() -> void:
 
 func _on_player_entered(hitbox: Hitbox2D) -> void:
 	collect()
-	hitbox.owner.yorbs += 1
+	Game.player.yorbs += 1

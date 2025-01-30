@@ -1,9 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://b8nvfv376axfl"]
+[gd_scene load_steps=19 format=3 uid="uid://b8nvfv376axfl"]
 
 [ext_resource type="Script" uid="uid://bu22ddtayqdvv" path="res://scenes/objects/player/player.gd" id="1_sifpd"]
-[ext_resource type="Texture2D" uid="uid://coa66m60luwe2" path="res://test.png" id="1_y0yjp"]
+[ext_resource type="Texture2D" uid="uid://coa66m60luwe2" path="res://sprites/player/test.png" id="1_y0yjp"]
 [ext_resource type="Script" uid="uid://ctihdwepi0tl6" path="res://scripts/resource_types/player_physics/player_physics.gd" id="2_kl10t"]
-[ext_resource type="Script" uid="uid://tw058l3yxrbe" path="res://bundles/state_machine/node_types/state_machine.gd" id="2_oux8g"]
+[ext_resource type="Script" uid="uid://tw058l3yxrbe" path="res://scripts/node_types/state_machine/state_machine.gd" id="2_oux8g"]
 [ext_resource type="Script" uid="uid://dp8cy2ftfoxfq" path="res://scripts/node_types/components/health_component.gd" id="3_34qh2"]
 [ext_resource type="Script" uid="uid://7yyitp7giquq" path="res://scripts/node_types/colliders/rays/ray_pair.gd" id="3_e2x5u"]
 [ext_resource type="Script" uid="uid://c4ggqbuj1diwc" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="4_vq0i8"]
@@ -11,43 +11,43 @@
 [ext_resource type="Resource" uid="uid://byp37ke33um88" path="res://resources/misc/default_pcam_tween.tres" id="5_kjaf5"]
 [ext_resource type="Script" uid="uid://dbuqdhafwop0m" path="res://scenes/objects/player/states/normal.gd" id="6_ctobj"]
 [ext_resource type="Script" uid="uid://cnnotig7v01" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="7_86as6"]
+[ext_resource type="AudioStream" uid="uid://vwy772rdglud" path="res://sounds/sfx/sfx_jump.wav" id="7_g65c7"]
 [ext_resource type="Script" uid="uid://doqoaksuo8foh" path="res://scenes/objects/player/states/launch.gd" id="7_jrq6y"]
+[ext_resource type="AudioStream" uid="uid://bvu0d6r6rsgc7" path="res://sounds/sfx/sfx_honk.wav" id="8_japq8"]
 [ext_resource type="AudioStream" uid="uid://c4cjp4ca1n567" path="res://sounds/sfx/sfx_close_scream.ogg" id="13_7ibcn"]
 
 [sub_resource type="Resource" id="Resource_t73ii"]
 script = ExtResource("2_kl10t")
 speed_run = 240.0
-speed_dash = 360.0
-speed_dash_boost = 120.0
-dash_duration = 1.0
 speed_acc = 16.0
-speed_acc_air = 12.0
 speed_dec = 20.0
-speed_dec_air = 10.0
 speed_frc = 12.0
+speed_acc_air = 12.0
+speed_dec_air = 10.0
 speed_frc_air = 0.96875
 speed_grv = 16.0
 speed_fall = 360.0
 speed_jump_release = -120.0
 speed_hurt = -60.0
 jump_height = 80.0
+coyote_time = 0.1
+jump_buffer = 0.1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uesjy"]
 size = Vector2(12, 18)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0q5ag"]
-size = Vector2(58, 19)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_881h8"]
 radius = 256.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "camera", "collider_root", "ray_collider_top", "ray_collider_bottom", "ray_collider_left", "ray_collider_right", "hitbox", "sprite_root")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "camera", "camera_target", "scream_emitter", "collider_root", "ray_collider_top", "ray_collider_bottom", "ray_collider_left", "ray_collider_right", "hitbox", "sprite_root")]
 z_index = 1
 collision_layer = 0
 collision_mask = 15
 script = ExtResource("1_sifpd")
 state_machine = NodePath("StateMachine")
 camera = NodePath("CameraTarget/PhantomCamera2D")
+camera_target = NodePath("CameraTarget")
+scream_emitter = NodePath("ScreamEmitter")
 physics = SubResource("Resource_t73ii")
 collider_root = NodePath("Collision")
 ray_collider_top = NodePath("Collision/RayPairs/RayPairTop")
@@ -56,7 +56,6 @@ ray_collider_left = NodePath("Collision/RayPairs/RayPairLeft")
 ray_collider_right = NodePath("Collision/RayPairs/RayPairRight")
 hitbox = NodePath("Collision/Hitboxes/PlayerHitbox")
 sprite_root = NodePath("Sprite2D")
-metadata/_edit_group_ = true
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_34qh2")
@@ -72,8 +71,12 @@ priority = 1
 follow_mode = 2
 follow_target = NodePath("..")
 tween_resource = ExtResource("5_kjaf5")
-follow_damping = true
+tween_on_load = false
 draw_limits = true
+noise_emitter_layer = 1
+
+[node name="ScreamEmitter" type="Marker2D" parent="."]
+position = Vector2(16, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -8)
@@ -83,6 +86,18 @@ texture = ExtResource("1_y0yjp")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 anim_player = NodePath("../AnimationPlayer")
+
+[node name="Audio" type="Node2D" parent="."]
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("7_g65c7")
+bus = &"Sfx"
+
+[node name="CeilingHonk" type="AudioStreamPlayer2D" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("8_japq8")
+bus = &"Sfx"
 
 [node name="Collision" type="Node2D" parent="."]
 
@@ -105,6 +120,7 @@ one_way = true
 position = Vector2(-10, 4)
 rotation = 3.14159
 script = ExtResource("3_e2x5u")
+ledge_ray_offset_right = 5.19
 
 [node name="RayPairRight" type="Node2D" parent="Collision/RayPairs"]
 position = Vector2(10, 4)
@@ -116,7 +132,7 @@ script = ExtResource("3_e2x5u")
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("5_bjq2s")
-type = &"Player"
+types = Array[StringName]([&"player"])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Hitboxes/PlayerHitbox"]
 position = Vector2(0, 3)
@@ -124,24 +140,12 @@ shape = SubResource("RectangleShape2D_uesjy")
 
 [node name="EnemyCheck" type="Node" parent="Collision/Hitboxes/PlayerHitbox"]
 script = ExtResource("7_86as6")
-types = Array[StringName]([&"Enemy"])
-
-[node name="Scream" type="Area2D" parent="Collision/Hitboxes"]
-visible = false
-collision_layer = 16
-collision_mask = 16
-script = ExtResource("5_bjq2s")
-type = &"Scream"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Hitboxes/Scream"]
-position = Vector2(29, 2.5)
-shape = SubResource("RectangleShape2D_0q5ag")
-disabled = true
+types = Array[StringName]([&"enemy"])
 
 [node name="ChargeScream" type="Area2D" parent="Collision/Hitboxes"]
 visible = false
 script = ExtResource("5_bjq2s")
-type = &"ChargeScream"
+types = Array[StringName]([&"charge_scream"])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Hitboxes/ChargeScream"]
 position = Vector2(0, -8)
@@ -162,3 +166,5 @@ script = ExtResource("7_jrq6y")
 process_mode = 3
 stream = ExtResource("13_7ibcn")
 bus = &"Sfx"
+
+[connection signal="collision_enter" from="Collision/RayPairs/RayPairTop" to="Audio/CeilingHonk" method="play"]

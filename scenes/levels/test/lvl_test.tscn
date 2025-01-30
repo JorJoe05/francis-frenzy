@@ -1,18 +1,18 @@
-[gd_scene load_steps=12 format=4 uid="uid://h3mledadlhcu"]
+[gd_scene load_steps=11 format=4 uid="uid://h3mledadlhcu"]
 
 [ext_resource type="PackedScene" uid="uid://c23tm2pl04s3v" path="res://scenes/levels/parent/lvl_parent.tscn" id="1_xe06e"]
+[ext_resource type="AudioStream" uid="uid://c4blearh4oh75" path="res://sounds/music/Fruit Juice Factory.ogg" id="2_1k77u"]
 [ext_resource type="PackedScene" uid="uid://d00dtn0p1nqpa" path="res://scenes/backgrounds/fruit/background_fruit.tscn" id="2_xloky"]
 [ext_resource type="TileSet" uid="uid://dhypi1g5xr57k" path="res://resources/tilesets/fruit/tileset_fruit.tres" id="3_y0cal"]
 [ext_resource type="PackedScene" uid="uid://vs0c0kckdcc7" path="res://scenes/objects/common/star_arrow/star_arrow.tscn" id="4_0uj0j"]
-[ext_resource type="PackedScene" uid="uid://b8nvfv376axfl" path="res://scenes/objects/player/player.tscn" id="5_1ring"]
 [ext_resource type="PackedScene" uid="uid://8r0ihgodgdcb" path="res://scenes/ui/hud.tscn" id="6_npjgk"]
-[ext_resource type="PackedScene" uid="uid://cq218rdgk2yal" path="res://scenes/objects/enemies/enemy_parent.tscn" id="7_aoje1"]
-[ext_resource type="Script" uid="uid://cbmn7txrmt50o" path="res://scripts/node_types/camera/camera_trapper.gd" id="8_fdki5"]
-[ext_resource type="Script" uid="uid://bccjad2ayhjja" path="res://scripts/node_types/utility/positioning/player_follow.gd" id="9_tifek"]
-[ext_resource type="Script" uid="uid://c4ggqbuj1diwc" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="10_gbsa8"]
-[ext_resource type="Resource" uid="uid://byp37ke33um88" path="res://resources/misc/default_pcam_tween.tres" id="11_mneeu"]
+[ext_resource type="PackedScene" uid="uid://cq218rdgk2yal" path="res://scenes/objects/enemies/parent/enemy_parent.tscn" id="7_aoje1"]
+[ext_resource type="Script" uid="uid://t7efj4orwdoy" path="res://scripts/node_types/utility/triggers/line_cross.gd" id="8_1k77u"]
+[ext_resource type="Script" uid="uid://cksghqfhmf4xp" path="res://scripts/node_types/utility/events/change_scene.gd" id="9_ft0mp"]
+[ext_resource type="PackedScene" uid="uid://y1mid0xy0v6e" path="res://scenes/ui/scene_fades/wipe_fade/wipe_fade.tscn" id="11_kem5n"]
 
 [node name="TestLevel" instance=ExtResource("1_xe06e")]
+music = ExtResource("2_1k77u")
 metadata/_edit_vertical_guides_ = [912.0, 0.0]
 metadata/_edit_horizontal_guides_ = [-288.0, 240.0]
 
@@ -34,24 +34,10 @@ rotation = -1.5708
 launch_speed = 240.0
 launch_duration = 0.0
 
-[node name="Player" parent="Shared" index="0" instance=ExtResource("5_1ring")]
-position = Vector2(208, 144)
-
-[node name="PhantomCamera2D" parent="Shared/Player/CameraTarget" index="0"]
-position = Vector2(232, 120)
-limit_left = 0
-limit_top = -288
-limit_right = 912
-limit_bottom = 240
-
-[node name="GlobalCamera" parent="Shared" index="1"]
+[node name="GlobalCamera" parent="Shared" index="0"]
 physics_interpolation_mode = 1
-position = Vector2(232, 120)
+position = Vector2(152, 144)
 process_callback = 0
-limit_left = 0
-limit_top = -288
-limit_right = 912
-limit_bottom = 240
 
 [node name="HUD" parent="UI" index="0" instance=ExtResource("6_npjgk")]
 metadata/_edit_lock_ = true
@@ -62,51 +48,18 @@ position = Vector2(160, 48)
 [node name="Enemy3" parent="." index="7" instance=ExtResource("7_aoje1")]
 position = Vector2(728, -88)
 
-[node name="CameraTrapper2" type="ReferenceRect" parent="." index="8" node_paths=PackedStringArray("camera")]
-offset_left = 560.0
-offset_top = -272.0
-offset_right = 768.0
-offset_bottom = -160.0
-script = ExtResource("8_fdki5")
-camera = NodePath("PhantomCamera2D")
+[node name="LineCrossTrigger" type="Marker2D" parent="." index="8"]
+position = Vector2(432, 160)
+script = ExtResource("8_1k77u")
+metadata/_custom_type_script = ExtResource("8_1k77u")
 
-[node name="PlayerFollow" type="Node2D" parent="CameraTrapper2" index="0"]
-position = Vector2(104, 56)
-script = ExtResource("9_tifek")
-y = false
+[node name="ChangeScene" type="Node" parent="LineCrossTrigger" index="0"]
+script = ExtResource("9_ft0mp")
+scene = "uid://byxu3c4mvwb20"
+fade_in = ExtResource("11_kem5n")
+fade_in_start_method = &"fade_in_down"
+fade_out = ExtResource("11_kem5n")
+fade_out_start_method = &"fade_out_down"
+metadata/_custom_type_script = ExtResource("9_ft0mp")
 
-[node name="PhantomCamera2D" type="Node2D" parent="CameraTrapper2" index="1" node_paths=PackedStringArray("follow_target")]
-top_level = true
-position = Vector2(664, -216)
-script = ExtResource("10_gbsa8")
-follow_mode = 2
-follow_target = NodePath("../PlayerFollow")
-zoom = Vector2(2, 2)
-tween_resource = ExtResource("11_mneeu")
-follow_damping = true
-draw_limits = true
-
-[node name="CameraTrapper" type="ReferenceRect" parent="." index="9" node_paths=PackedStringArray("camera")]
-offset_left = 832.0
-offset_top = -152.0
-offset_right = 896.0
-offset_bottom = 48.0
-script = ExtResource("8_fdki5")
-camera = NodePath("PhantomCamera2D")
-
-[node name="PlayerFollow" type="Node2D" parent="CameraTrapper" index="0"]
-position = Vector2(32, 96)
-script = ExtResource("9_tifek")
-y = false
-
-[node name="PhantomCamera2D" type="Node2D" parent="CameraTrapper" index="1" node_paths=PackedStringArray("follow_target")]
-top_level = true
-position = Vector2(864, -56)
-script = ExtResource("10_gbsa8")
-follow_mode = 2
-follow_target = NodePath("../PlayerFollow")
-tween_resource = ExtResource("11_mneeu")
-follow_damping = true
-draw_limits = true
-
-[editable path="Shared/Player"]
+[connection signal="triggered" from="LineCrossTrigger" to="LineCrossTrigger/ChangeScene" method="trigger"]

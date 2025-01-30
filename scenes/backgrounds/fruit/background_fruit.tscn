@@ -1,10 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://d00dtn0p1nqpa"]
 
-[ext_resource type="Script" path="res://scenes/backgrounds/fruit/background_fruit.gd" id="1_52s6s"]
+[ext_resource type="Script" uid="uid://7mbb8somie27" path="res://scenes/backgrounds/fruit/background_fruit.gd" id="1_52s6s"]
 [ext_resource type="Texture2D" uid="uid://bfm061dgxjl3v" path="res://sprites/levels/fruit/spr_fruit_back_sky.png" id="1_tyww6"]
 [ext_resource type="Texture2D" uid="uid://bsnxchj6jcacb" path="res://sprites/levels/fruit/spr_fruit_back_wall.png" id="2_tv2ge"]
 
 [node name="FruitBackground" type="Node2D"]
+z_index = -5
 script = ExtResource("1_52s6s")
 
 [node name="Parallax2D" type="Parallax2D" parent="."]

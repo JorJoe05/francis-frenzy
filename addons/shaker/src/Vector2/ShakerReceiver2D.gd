@@ -145,4 +145,3 @@ func is_playing() -> bool:
 	for i:EmitterData in emitter_list:
 		return i.emitter.emitting
 	return false
-

@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dsrlskt46p75p"]
+
+[ext_resource type="Shader" uid="uid://bwll53n7a2tpv" path="res://shaders/shader_tileset_mask.gdshader" id="1_hmpye"]
+[ext_resource type="Texture2D" uid="uid://iqv7u2wvvx78" path="res://icon.svg" id="2_hmpye"]
+
+[resource]
+shader = ExtResource("1_hmpye")
+shader_parameter/overlay_tex = ExtResource("2_hmpye")
+shader_parameter/mask_color = Color(1, 0, 1, 1)
+shader_parameter/texture_size = Vector2(32, 32)

@@ -17,12 +17,13 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-PauseManager="*res://bundles/pause_manager/scripts/autoloads/pause_manager.gd"
+PauseManager="*res://scripts/autoloads/pause_manager.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 Shaker="*res://addons/shaker/src/Shaker.gd"
 Game="*res://scripts/autoloads/game.gd"
-SceneManager="*res://bundles/scene_manager/scripts/autoloads/scene_manager.gd"
 DebugActions="*res://scripts/autoloads/debug_actions.gd"
+SceneManager="*res://scripts/autoloads/scene_manager.gd"
+Music="*res://scripts/autoloads/music.gd"
 
 [display]
 
@@ -39,21 +40,27 @@ enabled=PackedStringArray("res://addons/aseprite_importer/plugin.cfg", "res://ad
 [file_customization]
 
 folder_colors={
-"res://addons/": "red",
-"res://bundles/": "orange",
-"res://notes/": "yellow",
-"res://resources/": "green",
+"res://addons/": "gray",
+"res://notes/": "gray",
+"res://resources/": "red",
 "res://scenes/": "blue",
 "res://scenes/backgrounds/": "red",
 "res://scenes/levels/": "orange",
 "res://scenes/menus/": "yellow",
 "res://scenes/objects/": "green",
 "res://scenes/ui/": "blue",
-"res://script_templates/": "red",
+"res://script_templates/": "gray",
 "res://scripts/": "purple",
-"res://shaders/": "orange",
-"res://sounds/": "yellow",
-"res://sprites/": "green"
+"res://scripts/autoloads/": "red",
+"res://scripts/node_types/": "green",
+"res://scripts/resource_types/": "blue",
+"res://shaders/": "yellow",
+"res://sounds/": "orange",
+"res://sounds/music/": "green",
+"res://sounds/sfx/": "blue",
+"res://sprites/": "green",
+"res://sprites/debug/": "gray",
+"res://sprites/levels/": "orange"
 }
 
 [input]

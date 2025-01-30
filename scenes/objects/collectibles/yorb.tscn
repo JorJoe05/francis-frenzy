@@ -23,11 +23,10 @@ stream = ExtResource("3_moeqi")
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("2_637ws")
-type = &"Yorb"
 
 [node name="PlayerFilter" type="Node" parent="Hitbox2D"]
 script = ExtResource("3_q73t1")
-types = Array[StringName]([&"Player"])
+types = Array[StringName]([&"player", &"scream"])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox2D"]
 shape = SubResource("CircleShape2D_xr1ca")
