@@ -166,7 +166,6 @@ metadata/_custom_type_script = ExtResource("5_qt0c1")
 [node name="RealExplosion" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_u7biy")
 animation = &"explode"
-frame = 3
 frame_progress = 0.43582
 script = SubResource("GDScript_d8kfq")
 
