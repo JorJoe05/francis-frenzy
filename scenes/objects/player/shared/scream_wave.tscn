@@ -65,6 +65,7 @@ metadata/_custom_type_script = ExtResource("4_cnfn5")
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(4.76837e-07, 5.96046e-07)
 scale = Vector2(1.2, 1.2)
+rect = Rect2(-32, -32, 64, 64)
 
 [node name="Scream" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true

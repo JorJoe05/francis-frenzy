@@ -31,16 +31,19 @@ func _filter(hitbox: Hitbox2D) -> bool:
 	match operator:
 		Operator.OR:
 			for type in types:
+				if type == &"": break
 				if hitbox.types.has(type):
 					return true
 			return false
 		Operator.AND:
 			for type in types:
+				if type == &"": break
 				if not hitbox.types.has(type):
 					return false
 			return true
 		Operator.NOT:
 			for type in types:
+				if type == &"": break
 				if hitbox.types.has(type):
 					return false
 			return true

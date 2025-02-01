@@ -22,4 +22,4 @@ extends Resource
 @export var jump_buffer: float = 0.1
 
 func speed_jump_get() -> float:
-	return sqrt(2.0 * speed_grv * jump_height * 60.0)
+	return -sqrt(2.0 * speed_grv * jump_height * 60.0)

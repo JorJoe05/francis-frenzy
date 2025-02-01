@@ -160,6 +160,13 @@ func bounce() -> bool:
 	
 	return _is_colliding
 
+func push() -> bool:
+	if _has_collided == false:
+		update_collision()
+		_is_colliding = _get_max_detector().push()
+	
+	return _is_colliding
+
 func collide() -> bool:
 	if _has_collided == false:
 		update_collision()

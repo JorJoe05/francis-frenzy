@@ -11,7 +11,7 @@ signal maxed_out
 @export var minimum_health : int = 0
 @export var maximum_health : int = 5
 
-func heal(amount) -> void:
+func heal(amount: int = 1) -> void:
 	if health == maximum_health:
 		return
 	var amount_healed : int = 0
@@ -25,7 +25,7 @@ func heal(amount) -> void:
 		maxed_out.emit()
 	print("Healed")
 
-func damage(amount) ->  void:
+func damage(amount: int = 1) ->  void:
 	if health == minimum_health:
 		depleted.emit()
 		return
@@ -46,3 +46,9 @@ func max_out() -> void:
 func deplete() -> void:
 	var amount = health - minimum_health
 	damage(amount)
+
+func is_full() -> bool:
+	return health == maximum_health
+
+func is_depleted() -> bool:
+	return health == minimum_health

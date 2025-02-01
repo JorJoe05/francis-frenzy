@@ -155,6 +155,18 @@ func bounce() -> bool:
 	
 	return _is_colliding
 
+func push() -> bool:
+	assert(owner is CharacterBody2D)
+	
+	if _has_collided == false:
+		update_collision()
+		_is_colliding = _collision.is_point_colliding()
+	
+	if _is_colliding:
+		owner.position += _collision.get_snap_delta()
+	
+	return _is_colliding
+
 func collide() -> bool:
 	assert(owner is CharacterBody2D)
 	

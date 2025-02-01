@@ -80,7 +80,6 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ljilr"]
 resource_local_to_scene = true
-size = Vector2(12, 20)
 
 [node name="BoneyM" instance=ExtResource("1_swl62")]
 
@@ -95,3 +94,6 @@ libraries = {
 
 [node name="CollisionShape2D" parent="Hitbox2D" index="0"]
 shape = SubResource("RectangleShape2D_ljilr")
+
+[node name="PlayerFilter" parent="Hitbox2D" index="1"]
+types = Array[StringName]([&"scream", &"explosion", &"pepsi"])

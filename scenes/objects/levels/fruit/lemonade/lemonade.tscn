@@ -1,10 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://b4qcn8gnumsr0"]
+[gd_scene load_steps=14 format=3 uid="uid://b4qcn8gnumsr0"]
 
 [ext_resource type="Shader" uid="uid://btujnc4ayu8au" path="res://shaders/shader_colorize_mask.gdshader" id="1_e5rdx"]
 [ext_resource type="Texture2D" uid="uid://bktaswa4m6m2f" path="res://sprites/levels/fruit/spr_lemonade.png" id="1_xrqo0"]
 [ext_resource type="Script" uid="uid://yvxa280j12df" path="res://scenes/objects/levels/fruit/lemonade/lemonade.gd" id="2_2u44f"]
 [ext_resource type="Script" uid="uid://d1bhp1m7c7y64" path="res://scripts/node_types/entity/entity.gd" id="3_2pf07"]
-[ext_resource type="Script" uid="uid://t7efj4orwdoy" path="res://scripts/node_types/utility/triggers/line_cross.gd" id="4_2pf07"]
+[ext_resource type="Script" uid="uid://om0n3vs52m54" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="5_fy6ah"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e5rdx"]
 shader = ExtResource("1_e5rdx")
@@ -55,6 +55,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ldydy"]
+size = Vector2(1024, 10)
+
 [node name="Lemonade" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_e5rdx")
 script = ExtResource("2_2u44f")
@@ -72,7 +75,7 @@ repeat_times = 27
 use_parent_material = true
 position = Vector2(0, -24)
 sprite_frames = SubResource("SpriteFrames_ldydy")
-frame_progress = 0.117932
+frame_progress = 0.845664
 centered = false
 
 [node name="ColorRect" type="ColorRect" parent="Parallax2D"]
@@ -81,10 +84,15 @@ offset_right = 32.0
 offset_bottom = 240.0
 color = Color(1, 0, 1, 1)
 
-[node name="LemonadeTrigger" type="Marker2D" parent="."]
-rotation = 1.5708
-script = ExtResource("4_2pf07")
-metadata/_custom_type_script = ExtResource("4_2pf07")
+[node name="Hitbox2D" type="Area2D" parent="Parallax2D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("5_fy6ah")
+types = Array[StringName]([&"lemonade"])
+metadata/_custom_type_script = ExtResource("5_fy6ah")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Parallax2D/Hitbox2D"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_ldydy")
 
 [connection signal="ready" from="Parallax2D/AnimatedSprite2D" to="Parallax2D/AnimatedSprite2D" method="play" flags=6 binds= [&"default"]]
-[connection signal="triggered" from="LemonadeTrigger" to="." method="_on_line_cross_trigger_triggered"]

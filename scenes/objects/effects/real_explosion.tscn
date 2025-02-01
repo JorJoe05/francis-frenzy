@@ -140,8 +140,7 @@ func _ready() -> void:
 	$PhantomCameraNoiseEmitter2D.emit()
 
 func _process(delta: float) -> void:
-	if frame > 11:
-		$Hitbox2D/CollisionShape2D.disabled = true
+	$Hitbox2D/CollisionShape2D.scale = $Hitbox2D/CollisionShape2D.scale.move_toward(Vector2.ZERO, delta)
 	
 	if not is_playing():
 		queue_free()
@@ -152,10 +151,10 @@ size = Vector2(56, 72)
 
 [sub_resource type="Resource" id="Resource_cay2d"]
 script = ExtResource("5_qt0c1")
-amplitude = 16.0
+amplitude = 8.0
 frequency = 10.0
 randomize_noise_seed = 1
-noise_seed = 224
+noise_seed = 96
 positional_noise = true
 rotational_noise = false
 positional_multiplier_x = 1.0
@@ -166,7 +165,6 @@ metadata/_custom_type_script = ExtResource("5_qt0c1")
 [node name="RealExplosion" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_u7biy")
 animation = &"explode"
-frame_progress = 0.43582
 script = SubResource("GDScript_d8kfq")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

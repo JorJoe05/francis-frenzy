@@ -280,6 +280,9 @@ func _check_camera_host_amount() -> void:
 
 
 func _assign_new_active_pcam(pcam: Node) -> void:
+	# Only checks if the scene tree is still present.
+	# Prevents a few errors and checks from happening if the scene is exited.
+	if not is_inside_tree(): return
 	var no_previous_pcam: bool
 	if is_instance_valid(_active_pcam_2d) or is_instance_valid(_active_pcam_3d):
 		if _is_2D:
@@ -630,8 +633,8 @@ func _tween_follow_checker(delta: float) -> void:
 		_pcam_tween(delta)
 
 	if _is_2D:
-		camera_2d.offset = Vector2.ZERO
-		camera_2d.offset = _active_pcam_2d.get_noise_transform().origin # + _noise_emitted_output_2d.origin
+		#camera_2d.offset = Vector2.ZERO
+		camera_2d.offset = _noise_emitted_output_2d.origin #_active_pcam_2d.get_noise_transform().origin
 		camera_2d.rotation += _active_pcam_2d.get_noise_transform().get_rotation() # + _noise_emitted_output_2d.get_rotation()
 	else:
 		camera_3d.global_transform *= _active_pcam_3d.get_noise_transform()

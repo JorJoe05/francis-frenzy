@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7pktu3y7xvqc"]
+[gd_scene load_steps=15 format=3 uid="uid://b7pktu3y7xvqc"]
 
 [ext_resource type="Script" uid="uid://dvverrnoqdebf" path="res://scenes/objects/common/galactic_arrow/galactic_arrow.gd" id="1_lq27t"]
 [ext_resource type="AudioStream" uid="uid://t0i7b2ffucrp" path="res://sounds/sfx/sfx_galacticarrow.ogg" id="2_6q3gm"]
 [ext_resource type="Script" uid="uid://om0n3vs52m54" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="3_8ilat"]
 [ext_resource type="Script" uid="uid://cnnotig7v01" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="4_irm42"]
+[ext_resource type="Texture2D" uid="uid://cy2hfibyraj54" path="res://sprites/common/spr_galactic_arrow_trail.png" id="5_5uh7u"]
+[ext_resource type="Script" uid="uid://swn3akovnjxv" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_noise_emitter_2d.gd" id="6_ldxp4"]
+[ext_resource type="Script" uid="uid://pflsbwgfxv1c" path="res://addons/phantom_camera/scripts/resources/phantom_camera_noise_2d.gd" id="7_0d6u6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v45ma"]
 radius = 24.0
@@ -11,7 +14,86 @@ radius = 24.0
 [sub_resource type="ViewportTexture" id="ViewportTexture_txexv"]
 viewport_path = NodePath("SubViewport")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_3gwco"]
+atlas = ExtResource("5_5uh7u")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="Animation" id="Animation_3gwco"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Trail:texture:region")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 48, 64)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Trail:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_5uh7u"]
+resource_name = "fire"
+step = 0.0833333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Trail:texture:region")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0833333, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 48, 64), Rect2(48, 0, 48, 64), Rect2(96, 0, 48, 64)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Trail:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ldxp4"]
+_data = {
+&"RESET": SubResource("Animation_3gwco"),
+&"fire": SubResource("Animation_5uh7u")
+}
+
+[sub_resource type="Resource" id="Resource_mba64"]
+script = ExtResource("7_0d6u6")
+amplitude = 4.0
+frequency = 10.0
+randomize_noise_seed = 1
+noise_seed = 0
+positional_noise = true
+rotational_noise = false
+positional_multiplier_x = 1.0
+positional_multiplier_y = 1.0
+rotational_multiplier = 1.0
+metadata/_custom_type_script = ExtResource("7_0d6u6")
+
 [node name="GalacticArrow" type="Node2D"]
+z_index = 1
 script = ExtResource("1_lq27t")
 metadata/_edit_group_ = true
 
@@ -43,7 +125,7 @@ transparent_bg = true
 handle_input_locally = false
 texture_mipmap_bias = 0.876
 canvas_item_default_texture_filter = 0
-size = Vector2i(80, 80)
+size = Vector2i(120, 120)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
@@ -53,14 +135,39 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -40.0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(40, 40)
+pivot_offset = Vector2(60, 60)
 texture = SubResource("ViewportTexture_txexv")
 expand_mode = 1
+
+[node name="Trail" type="NinePatchRect" parent="."]
+visible = false
+z_index = 2
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -32.0
+offset_right = 128.0
+offset_bottom = 32.0
+grow_vertical = 2
+texture = SubResource("AtlasTexture_3gwco")
+patch_margin_right = 16
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ldxp4")
+}
+
+[node name="PhantomCameraNoiseEmitter2D" type="Node2D" parent="."]
+script = ExtResource("6_ldxp4")
+noise = SubResource("Resource_mba64")
+duration = 0.1
+decay_time = 0.5
+metadata/_custom_type_script = ExtResource("6_ldxp4")
 
 [connection signal="hitbox_entered" from="Hitbox2D/PlayerFilter" to="." method="_on_player_hitbox_entered"]

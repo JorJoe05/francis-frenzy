@@ -1,7 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://b8nvfv376axfl"]
+[gd_scene load_steps=37 format=3 uid="uid://b8nvfv376axfl"]
 
+[ext_resource type="Shader" uid="uid://g4d0w1rgi8dl" path="res://shaders/shader_flash.gdshader" id="1_japq8"]
 [ext_resource type="Script" uid="uid://bu22ddtayqdvv" path="res://scenes/objects/player/player.gd" id="1_sifpd"]
-[ext_resource type="Texture2D" uid="uid://coa66m60luwe2" path="res://sprites/player/test.png" id="1_y0yjp"]
 [ext_resource type="Script" uid="uid://ctihdwepi0tl6" path="res://scripts/resource_types/player_physics/player_physics.gd" id="2_kl10t"]
 [ext_resource type="Script" uid="uid://tw058l3yxrbe" path="res://scripts/node_types/state_machine/state_machine.gd" id="2_oux8g"]
 [ext_resource type="Script" uid="uid://dp8cy2ftfoxfq" path="res://scripts/node_types/components/health_component.gd" id="3_34qh2"]
@@ -10,11 +10,14 @@
 [ext_resource type="Script" uid="uid://om0n3vs52m54" path="res://scripts/node_types/colliders/hitboxes/hitbox_2d.gd" id="5_bjq2s"]
 [ext_resource type="Resource" uid="uid://byp37ke33um88" path="res://resources/misc/default_pcam_tween.tres" id="5_kjaf5"]
 [ext_resource type="Script" uid="uid://dbuqdhafwop0m" path="res://scenes/objects/player/states/normal.gd" id="6_ctobj"]
+[ext_resource type="Texture2D" uid="uid://cejeatf7smkll" path="res://sprites/player/spr_francis.png" id="6_g65c7"]
 [ext_resource type="Script" uid="uid://cnnotig7v01" path="res://scripts/node_types/colliders/hitboxes/interactions/hitbox_type_filter.gd" id="7_86as6"]
 [ext_resource type="AudioStream" uid="uid://vwy772rdglud" path="res://sounds/sfx/sfx_jump.wav" id="7_g65c7"]
 [ext_resource type="Script" uid="uid://doqoaksuo8foh" path="res://scenes/objects/player/states/launch.gd" id="7_jrq6y"]
 [ext_resource type="AudioStream" uid="uid://bvu0d6r6rsgc7" path="res://sounds/sfx/sfx_honk.wav" id="8_japq8"]
 [ext_resource type="AudioStream" uid="uid://c4cjp4ca1n567" path="res://sounds/sfx/sfx_close_scream.ogg" id="13_7ibcn"]
+[ext_resource type="Script" uid="uid://d068pdirn482y" path="res://scenes/objects/player/states/hurt.gd" id="16_absnx"]
+[ext_resource type="Script" uid="uid://pb37m7qnank" path="res://scenes/objects/player/states/dead.gd" id="17_a2h7i"]
 
 [sub_resource type="Resource" id="Resource_t73ii"]
 script = ExtResource("2_kl10t")
@@ -33,21 +36,153 @@ jump_height = 80.0
 coyote_time = 0.1
 jump_buffer = 0.1
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_japq8"]
+shader = ExtResource("1_japq8")
+shader_parameter/flash_color = Color(0, 1, 1, 1)
+shader_parameter/flash_mix = 0.0
+
+[sub_resource type="Animation" id="Animation_japq8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 64, 48)]
+}
+
+[sub_resource type="Animation" id="Animation_g65c7"]
+resource_name = "idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Rect2(0, 0, 64, 48)]
+}
+
+[sub_resource type="Animation" id="Animation_absnx"]
+resource_name = "jump"
+length = 0.666675
+loop_mode = 1
+step = 0.0833333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0833333, 0.166667, 0.25, 0.333333, 0.416667, 0.5, 0.583333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 48, 64, 48), Rect2(64, 48, 64, 48), Rect2(128, 48, 64, 48), Rect2(192, 48, 64, 48), Rect2(256, 48, 64, 48), Rect2(320, 48, 64, 48), Rect2(384, 48, 64, 48), Rect2(448, 48, 64, 48)]
+}
+
+[sub_resource type="Animation" id="Animation_a2h7i"]
+resource_name = "scream"
+length = 0.333342
+step = 0.0833333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Rect2(192, 0, 64, 48)]
+}
+
+[sub_resource type="Animation" id="Animation_nqkks"]
+resource_name = "walk"
+length = 0.40001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 64, 48), Rect2(64, 0, 64, 48), Rect2(0, 0, 64, 48), Rect2(128, 0, 64, 48)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a2h7i"]
+_data = {
+&"RESET": SubResource("Animation_japq8"),
+&"idle": SubResource("Animation_g65c7"),
+&"jump": SubResource("Animation_absnx"),
+&"scream": SubResource("Animation_a2h7i"),
+&"walk": SubResource("Animation_nqkks")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g65c7"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_japq8"]
+animation = &"jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_absnx"]
+animation = &"scream"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a2h7i"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_absnx"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a2h7i"]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g65c7"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_g65c7"]
+states/idle/node = SubResource("AnimationNodeAnimation_g65c7")
+states/idle/position = Vector2(304, 100)
+states/jump/node = SubResource("AnimationNodeAnimation_japq8")
+states/jump/position = Vector2(234, 194)
+states/scream/node = SubResource("AnimationNodeAnimation_absnx")
+states/scream/position = Vector2(403, 194)
+states/walk/node = SubResource("AnimationNodeAnimation_a2h7i")
+states/walk/position = Vector2(548, 114)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_absnx"), "scream", "idle", SubResource("AnimationNodeStateMachineTransition_a2h7i"), "scream", "walk", SubResource("AnimationNodeStateMachineTransition_g65c7")]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uesjy"]
-size = Vector2(12, 18)
+size = Vector2(16, 28)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_881h8"]
 radius = 256.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "camera", "camera_target", "scream_emitter", "collider_root", "ray_collider_top", "ray_collider_bottom", "ray_collider_left", "ray_collider_right", "hitbox", "sprite_root")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "camera", "camera_target", "scream_emitter", "health", "collider_root", "ray_collider_top", "ray_collider_bottom", "ray_collider_left", "ray_collider_right", "hitbox", "animation_player", "animation_tree", "sprite_root", "sprite")]
 z_index = 1
 collision_layer = 0
 collision_mask = 15
 script = ExtResource("1_sifpd")
 state_machine = NodePath("StateMachine")
-camera = NodePath("CameraTarget/PhantomCamera2D")
-camera_target = NodePath("CameraTarget")
+camera = NodePath("CameraTargetRoot/CameraTarget/PhantomCamera2D")
+camera_target = NodePath("CameraTargetRoot/CameraTarget")
 scream_emitter = NodePath("ScreamEmitter")
+health = NodePath("HealthComponent")
 physics = SubResource("Resource_t73ii")
 collider_root = NodePath("Collision")
 ray_collider_top = NodePath("Collision/RayPairs/RayPairTop")
@@ -55,15 +190,22 @@ ray_collider_bottom = NodePath("Collision/RayPairs/RayPairBottom")
 ray_collider_left = NodePath("Collision/RayPairs/RayPairLeft")
 ray_collider_right = NodePath("Collision/RayPairs/RayPairRight")
 hitbox = NodePath("Collision/Hitboxes/PlayerHitbox")
-sprite_root = NodePath("Sprite2D")
+animation_player = NodePath("AnimationPlayer")
+animation_tree = NodePath("AnimationTree")
+sprite_root = NodePath("SpriteRoot")
+sprite = NodePath("SpriteRoot/Sprite2D")
+metadata/_edit_group_ = true
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_34qh2")
 
-[node name="CameraTarget" type="Marker2D" parent="."]
+[node name="CameraTargetRoot" type="Node2D" parent="."]
+top_level = true
+
+[node name="CameraTarget" type="Marker2D" parent="CameraTargetRoot"]
 position = Vector2(24, 0)
 
-[node name="PhantomCamera2D" type="Node2D" parent="CameraTarget" node_paths=PackedStringArray("follow_target")]
+[node name="PhantomCamera2D" type="Node2D" parent="CameraTargetRoot/CameraTarget" node_paths=PackedStringArray("follow_target")]
 top_level = true
 position = Vector2(24, 0)
 script = ExtResource("4_vq0i8")
@@ -78,13 +220,23 @@ noise_emitter_layer = 1
 [node name="ScreamEmitter" type="Marker2D" parent="."]
 position = Vector2(16, 0)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="SpriteRoot" type="Node2D" parent="."]
+material = SubResource("ShaderMaterial_japq8")
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteRoot"]
+use_parent_material = true
 position = Vector2(0, -8)
-texture = ExtResource("1_y0yjp")
+texture = ExtResource("6_g65c7")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 48)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_a2h7i")
+}
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_g65c7")
 anim_player = NodePath("../AnimationPlayer")
 
 [node name="Audio" type="Node2D" parent="."]
@@ -99,12 +251,16 @@ unique_name_in_owner = true
 stream = ExtResource("8_japq8")
 bus = &"Sfx"
 
+[node name="Hurt" type="AudioStreamPlayer2D" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("8_japq8")
+
 [node name="Collision" type="Node2D" parent="."]
 
 [node name="RayPairs" type="Node2D" parent="Collision"]
 
 [node name="RayPairTop" type="Node2D" parent="Collision/RayPairs"]
-position = Vector2(0, -8)
+position = Vector2(0, -16)
 rotation = 4.71239
 script = ExtResource("3_e2x5u")
 ledge_ray_offset_left = 0.0
@@ -117,13 +273,13 @@ script = ExtResource("3_e2x5u")
 one_way = true
 
 [node name="RayPairLeft" type="Node2D" parent="Collision/RayPairs"]
-position = Vector2(-10, 4)
+position = Vector2(-10, 0)
 rotation = 3.14159
 script = ExtResource("3_e2x5u")
 ledge_ray_offset_right = 5.19
 
 [node name="RayPairRight" type="Node2D" parent="Collision/RayPairs"]
-position = Vector2(10, 4)
+position = Vector2(10, 0)
 script = ExtResource("3_e2x5u")
 
 [node name="Hitboxes" type="Node2D" parent="Collision"]
@@ -132,15 +288,14 @@ script = ExtResource("3_e2x5u")
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("5_bjq2s")
-types = Array[StringName]([&"player"])
+types = Array[StringName]([&"player", &""])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Hitboxes/PlayerHitbox"]
-position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_uesjy")
 
-[node name="EnemyCheck" type="Node" parent="Collision/Hitboxes/PlayerHitbox"]
+[node name="HurtCheck" type="Node" parent="Collision/Hitboxes/PlayerHitbox"]
 script = ExtResource("7_86as6")
-types = Array[StringName]([&"enemy"])
+types = Array[StringName]([&"enemy", &"hurt", &"lemonade"])
 
 [node name="ChargeScream" type="Area2D" parent="Collision/Hitboxes"]
 visible = false
@@ -162,9 +317,16 @@ script = ExtResource("6_ctobj")
 [node name="Launch" type="Node" parent="StateMachine"]
 script = ExtResource("7_jrq6y")
 
+[node name="Hurt" type="Node" parent="StateMachine"]
+script = ExtResource("16_absnx")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("17_a2h7i")
+
 [node name="Troll" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("13_7ibcn")
 bus = &"Sfx"
 
 [connection signal="collision_enter" from="Collision/RayPairs/RayPairTop" to="Audio/CeilingHonk" method="play"]
+[connection signal="hitbox_entered" from="Collision/Hitboxes/PlayerHitbox/HurtCheck" to="." method="hurt"]

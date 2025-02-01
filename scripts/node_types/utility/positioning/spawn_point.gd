@@ -6,6 +6,7 @@ class_name SpawnPoint
 	set(value):
 		id = value
 		queue_redraw()
+@export var default: bool = false
 
 @onready var _debug_texture = preload("res://sprites/debug/spr_spawnpoint.png")
 @onready var _debug_font = preload("res://resources/fonts/pansy_hand/pansyhand.ttf")
@@ -13,6 +14,8 @@ class_name SpawnPoint
 func _ready() -> void:
 	if owner is Level:
 		owner.spawn_points[id] = self
+		if default:
+			owner.spawn_point_default = self
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():

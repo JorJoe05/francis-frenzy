@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://btyo8da51eyhx"]
+
+[ext_resource type="Texture2D" uid="uid://dns5fmhl601ms" path="res://sprites/levels/moon/spr_moon_back_indoors.png" id="1_77swk"]
+[ext_resource type="Script" uid="uid://doguor5i0nj61" path="res://scenes/backgrounds/moon/background_moon.gd" id="1_xk8ui"]
+
+[node name="MoonBackground" type="Node2D"]
+script = ExtResource("1_xk8ui")
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.25, 0.25)
+repeat_size = Vector2(64, 64)
+repeat_times = 13
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+texture = ExtResource("1_77swk")
+centered = false
