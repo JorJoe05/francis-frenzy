@@ -112,7 +112,7 @@ func move():
 	if ground_on:
 		velocity = velocity_local_to_global()
 	
-	position += velocity / 60.0
+	move_and_slide()
 
 func collide() -> bool:
 	var result: bool = false

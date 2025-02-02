@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxqdn5bkfx0fv"]
+
+[ext_resource type="Texture2D" uid="uid://cduvky21w2ohu" path="res://sprites/FreakJAM_Pixel.png" id="1_idjbb"]
+[ext_resource type="Script" uid="uid://c1cpi8wu6456" path="res://freakjam_logo.gd" id="1_jb131"]
+
+[node name="FreakjamLogo" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_jb131")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -64.0
+offset_right = 128.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_idjbb")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 320.0
+offset_top = 48.0
+offset_right = 377.0
+offset_bottom = 185.0
+rotation = 0.637045
+scale = Vector2(20, 20)
+pivot_offset = Vector2(28, 68)
+theme_override_font_sizes/font_size = 100
+text = "2"

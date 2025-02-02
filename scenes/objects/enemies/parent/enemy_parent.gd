@@ -11,7 +11,10 @@ func _flip(_face: Face) -> void:
 
 func _ready() -> void:
 	up_direction = Vector2.UP.rotated(rotation)
-	animation_state_machine.start(&"walk")
+	if walk_speed == 0:
+		animation_state_machine.start(&"idle")
+	else:
+		animation_state_machine.start(&"walk")
 	$Hitbox2D/PlayerFilter.hitbox_entered.connect(_hit, CONNECT_ONE_SHOT)
 	if get_parent() is LoaderRect:
 		$VisibleOnScreenEnabler2D.queue_free()
@@ -57,6 +60,7 @@ func _hit(_hitbox: Hitbox2D) -> void:
 	_is_dead = true
 
 func _destroy() -> void:
+	Game.player.yorbs += yorbs
 	if _is_dead:
 		var explosion = load("res://scenes/objects/effects/real_explosion.tscn").instantiate()
 		explosion.position = global_position

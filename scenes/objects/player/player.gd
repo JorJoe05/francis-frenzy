@@ -22,10 +22,15 @@ var coyote_time: float
 var jump_buffer: float
 var invincibility: float
 
-var yorbs: int = 0
+var yorbs: int = 0:
+	set(value):
+		yorbs = value
+		if yorbs >= 100:
+			health.heal()
+			%Heal.play()
+			yorbs -= 100
 
 func _ready() -> void:
-	Game.player = self
 	add_to_group(&"Player")
 	up_direction = Vector2.from_angle(rotation - (PI/2))
 	await get_tree().create_timer(1.0/60.0).timeout

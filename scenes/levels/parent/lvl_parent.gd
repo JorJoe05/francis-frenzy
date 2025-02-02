@@ -9,6 +9,9 @@ var gravity: float = 16.0
 var player
 
 func _ready() -> void:
+	Game.player.process_mode = PROCESS_MODE_INHERIT
+	Game.player.show()
+	
 	Music.set_stream(music)
 	
 	if spawn_points.has(SceneManager.get_spawn_point()):

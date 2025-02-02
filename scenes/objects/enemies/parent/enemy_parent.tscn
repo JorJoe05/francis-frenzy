@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cq218rdgk2yal"]
+[gd_scene load_steps=20 format=3 uid="uid://cq218rdgk2yal"]
 
 [ext_resource type="Script" uid="uid://dxryxchheomr1" path="res://scenes/objects/enemies/parent/enemy_parent.gd" id="1_07wmg"]
 [ext_resource type="Texture2D" uid="uid://brc45wim31tw5" path="res://sprites/enemies/parent/spr_enemy_example.png" id="2_7n702"]
@@ -38,6 +38,22 @@ tracks/0/keys = {
 "values": [Rect2(64, 0, 16, 32)]
 }
 
+[sub_resource type="Animation" id="Animation_t3puf"]
+resource_name = "idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Rect2(0, 0, 16, 32)]
+}
+
 [sub_resource type="Animation" id="Animation_7n702"]
 resource_name = "turn"
 length = 0.200007
@@ -75,12 +91,16 @@ tracks/0/keys = {
 _data = {
 &"RESET": SubResource("Animation_klmhl"),
 &"hurt": SubResource("Animation_uqh05"),
+&"idle": SubResource("Animation_t3puf"),
 &"turn": SubResource("Animation_7n702"),
 &"walk": SubResource("Animation_8r8xe")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wab4v"]
 animation = &"hurt"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_t3puf"]
+animation = &"idle"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aj2i0"]
 animation = &"turn"
@@ -99,6 +119,8 @@ advance_mode = 2
 states/End/position = Vector2(606, 100)
 states/hurt/node = SubResource("AnimationNodeAnimation_wab4v")
 states/hurt/position = Vector2(389, 205)
+states/idle/node = SubResource("AnimationNodeAnimation_t3puf")
+states/idle/position = Vector2(483, 100)
 states/turn/node = SubResource("AnimationNodeAnimation_aj2i0")
 states/turn/position = Vector2(389, 7)
 states/walk/node = SubResource("AnimationNodeAnimation_svfo7")

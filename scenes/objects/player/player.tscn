@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://b8nvfv376axfl"]
+[gd_scene load_steps=40 format=3 uid="uid://b8nvfv376axfl"]
 
 [ext_resource type="Shader" uid="uid://g4d0w1rgi8dl" path="res://shaders/shader_flash.gdshader" id="1_japq8"]
 [ext_resource type="Script" uid="uid://bu22ddtayqdvv" path="res://scenes/objects/player/player.gd" id="1_sifpd"]
@@ -15,6 +15,9 @@
 [ext_resource type="AudioStream" uid="uid://vwy772rdglud" path="res://sounds/sfx/sfx_jump.wav" id="7_g65c7"]
 [ext_resource type="Script" uid="uid://doqoaksuo8foh" path="res://scenes/objects/player/states/launch.gd" id="7_jrq6y"]
 [ext_resource type="AudioStream" uid="uid://bvu0d6r6rsgc7" path="res://sounds/sfx/sfx_honk.wav" id="8_japq8"]
+[ext_resource type="AudioStream" uid="uid://rg3hht1v2h2h" path="res://sounds/sfx/sfx_hurt.wav" id="10_jxhie"]
+[ext_resource type="AudioStream" uid="uid://cm45a2tels0ep" path="res://sounds/sfx/sfx_yell_wilhelm.wav" id="11_8bans"]
+[ext_resource type="AudioStream" uid="uid://dc4p8nt20yqln" path="res://sounds/sfx/sfx_heart.wav" id="12_8bans"]
 [ext_resource type="AudioStream" uid="uid://c4cjp4ca1n567" path="res://sounds/sfx/sfx_close_scream.ogg" id="13_7ibcn"]
 [ext_resource type="Script" uid="uid://d068pdirn482y" path="res://scenes/objects/player/states/hurt.gd" id="16_absnx"]
 [ext_resource type="Script" uid="uid://pb37m7qnank" path="res://scenes/objects/player/states/dead.gd" id="17_a2h7i"]
@@ -174,6 +177,8 @@ size = Vector2(16, 28)
 radius = 256.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "camera", "camera_target", "scream_emitter", "health", "collider_root", "ray_collider_top", "ray_collider_bottom", "ray_collider_left", "ray_collider_right", "hitbox", "animation_player", "animation_tree", "sprite_root", "sprite")]
+process_mode = 4
+visible = false
 z_index = 1
 collision_layer = 0
 collision_mask = 15
@@ -253,7 +258,15 @@ bus = &"Sfx"
 
 [node name="Hurt" type="AudioStreamPlayer2D" parent="Audio"]
 unique_name_in_owner = true
-stream = ExtResource("8_japq8")
+stream = ExtResource("10_jxhie")
+
+[node name="Death" type="AudioStreamPlayer2D" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("11_8bans")
+
+[node name="Heal" type="AudioStreamPlayer2D" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("12_8bans")
 
 [node name="Collision" type="Node2D" parent="."]
 

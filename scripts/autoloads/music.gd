@@ -20,3 +20,4 @@ func get_stream() -> AudioStream:
 func stop() -> void:
 	if _audio_stream_player.playing:
 		_audio_stream_player.stop()
+		_audio_stream_player.stream = null

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cf66i81cmcr68"]
+[gd_scene load_steps=10 format=3 uid="uid://cf66i81cmcr68"]
 
 [ext_resource type="PackedScene" uid="uid://cq218rdgk2yal" path="res://scenes/objects/enemies/parent/enemy_parent.tscn" id="1_swl62"]
 [ext_resource type="Texture2D" uid="uid://dq8aurxy0ncn2" path="res://sprites/enemies/boney_m/spr_enemy_boney_m.png" id="2_ljilr"]
@@ -33,6 +33,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Rect2(0, 64, 32, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_d2oko"]
+resource_name = "idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteRoot/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Rect2(32, 0, 32, 32)]
 }
 
 [sub_resource type="Animation" id="Animation_mr75j"]
@@ -74,6 +90,7 @@ tracks/0/keys = {
 _data = {
 &"RESET": SubResource("Animation_6mo8n"),
 &"hurt": SubResource("Animation_6p217"),
+&"idle": SubResource("Animation_d2oko"),
 &"turn": SubResource("Animation_mr75j"),
 &"walk": SubResource("Animation_ljilr")
 }

@@ -11,6 +11,7 @@ class_name ChangeScene
 @export var fade_out_start_method: StringName
 
 func trigger() -> void:
+	Game.player.process_mode - PROCESS_MODE_DISABLED
 	if fade_in:
 		SceneManager.set_fade_in_scene(fade_in, fade_in_start_method)
 	if fade_out:
