@@ -12,6 +12,7 @@ class_name SpawnPoint
 @onready var _debug_font = preload("res://resources/fonts/pansy_hand/pansyhand.ttf")
 
 func _ready() -> void:
+	if Engine.is_editor_hint(): return
 	if owner is Level:
 		owner.spawn_points[id] = self
 		if default:

@@ -69,14 +69,14 @@ func change_scene_to_file(path: String) -> void:
 	await _fade_in()
 	#assert(get_tree().change_scene_to_file(path) == OK)
 	get_tree().current_scene.queue_free()
-	var _load = func():
+	var load = func():
 		ResourceLoader.load_threaded_request(path)
 		while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 			pass
 		var _inst = ResourceLoader.load_threaded_get(path).instantiate()
 		get_tree().root.add_child(_inst)
 		get_tree().current_scene = _inst
-	_load.call_deferred()
+	load.call_deferred()
 	
 	await _fade_out()
 

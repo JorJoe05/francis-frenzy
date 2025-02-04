@@ -151,7 +151,8 @@ func bounce() -> bool:
 	
 	if _is_colliding:
 		owner.position += _collision.get_snap_delta()
-		owner.set_deferred(&"velocity", owner.velocity.bounce(_collision.get_normal()))
+		if _collision.get_normal() != Vector2.ZERO:
+			owner.set_deferred(&"velocity", owner.velocity.bounce(_collision.get_normal()))
 	
 	return _is_colliding
 

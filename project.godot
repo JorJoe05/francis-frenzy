@@ -20,7 +20,7 @@ config/icon="res://icon.svg"
 PauseManager="*res://scripts/autoloads/pause_manager.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 Game="*res://scripts/autoloads/game.gd"
-DebugActions="*res://scripts/autoloads/debug_actions.gd"
+DebugActions="res://scripts/autoloads/debug_actions.gd"
 SceneManager="*res://scripts/autoloads/scene_manager.gd"
 Music="*res://scripts/autoloads/music.gd"
 PlayerContainer="*res://node_2d.tscn"
@@ -33,9 +33,14 @@ window/size/window_width_override=1272
 window/size/window_height_override=720
 window/stretch/mode="viewport"
 
+[editor]
+
+movie_writer/mjpeg_quality=1.0
+movie_writer/movie_file="/run/media/jorjoe05/Jordan_Drive/Godot/Projects/Super Freaks/Freakjam/francis-frenzy/movie/movie.png"
+
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/aseprite_importer/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
 
 [file_customization]
 
@@ -121,4 +126,4 @@ common/physics_interpolation=true
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-driver/threads/thread_model=2
+renderer/rendering_method="mobile"
