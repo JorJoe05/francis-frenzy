@@ -38,9 +38,6 @@ var anim_duration = 0.5
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		pass
-	else:
-		queue_free()
-		return
 	$RayCast2D.target_position = Vector2(scan_distance, 0)
 	
 	var black_material = StandardMaterial3D.new()

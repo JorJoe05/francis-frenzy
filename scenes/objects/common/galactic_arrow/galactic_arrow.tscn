@@ -95,7 +95,6 @@ metadata/_custom_type_script = ExtResource("7_0d6u6")
 [node name="GalacticArrow" type="Node2D"]
 z_index = 1
 script = ExtResource("1_lq27t")
-debug_test_animation = true
 metadata/_edit_group_ = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

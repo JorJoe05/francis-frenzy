@@ -1,6 +1,8 @@
 extends Node
 
 func _process(delta: float) -> void:
+	if not OS.is_debug_build():
+		return
 	if Input.is_action_just_pressed("pause"):
 		SceneManager.change_to_main_scene()
 		pass

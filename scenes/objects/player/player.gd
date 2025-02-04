@@ -170,4 +170,5 @@ func hurt(_hitbox: Hitbox2D) -> void:
 	
 	elif _hitbox.types.has(&"lemonade"):
 		_damage.call()
+		state_machine.transition_to(&"Normal")
 		up_velocity.y = -600.0
